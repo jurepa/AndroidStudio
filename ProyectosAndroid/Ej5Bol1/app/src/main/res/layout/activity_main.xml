@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.ej5bol1.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escribe aquí: "
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        android:id="@+id/textView"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1" />
+    <EditText
+        android:layout_width="160dp"
+        android:layout_height="44dp"
+        android:id="@+id/texto"
+        android:textSize="18dp"
+        android:layout_marginStart="19dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/textView"
+        android:layout_marginLeft="19dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="tamanioLetra"
+        android:id="@+id/aumentar"
+        android:text="+"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/texto"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@+id/texto" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="tamanioLetra"
+        android:id="@+id/disminuir"
+        android:text="-"
+        app:layout_constraintRight_toLeftOf="@+id/texto"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="19dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@+id/texto"
+        android:layout_marginRight="19dp" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.myapplication.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escribe aqui"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintVertical_bias="0.548"
+        android:id="@+id/textView" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="MostrarEscrito"
+        android:text="Aceptar"
+        android:id="@+id/button"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="158dp"
+        app:layout_constraintLeft_toLeftOf="@+id/edittext"
+        android:layout_marginLeft="21dp" />
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ere un churruca"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_marginStart="35dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/textView"
+        android:layout_marginLeft="35dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview"
+        android:textSize="25dp"
+        android:text=""
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/edittext"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="40dp" />
+
+</android.support.constraint.ConstraintLayout>

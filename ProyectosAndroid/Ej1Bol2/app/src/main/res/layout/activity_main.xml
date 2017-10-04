@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.ej1bol2.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:hint="Escribe aquí..."
+            tools:layout_constraintTop_creator="1"
+            android:layout_marginTop="81dp"
+            tools:layout_constraintLeft_creator="1"
+            app:layout_constraintLeft_toLeftOf="@+id/negrita"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/negrita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="Negrita"
+            android:textSize="28dp"
+            android:onClick="checkeado"
+            tools:layout_constraintBottom_creator="1"
+            app:layout_constraintBottom_toTopOf="@+id/masTamaño"
+            tools:layout_constraintLeft_creator="1"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintLeft_toLeftOf="@+id/masTamaño"
+            android:layout_marginLeft="2dp" />
+
+        <CheckBox
+            android:id="@+id/masTamaño"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aumentar Tamaño"
+            android:textSize="28dp"
+            android:layout_below="@+id/colorRojo"
+            android:onClick="checkeado"
+            android:layout_marginEnd="12dp"
+            tools:layout_constraintTop_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintBottom_creator="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="12dp" />
+
+        <CheckBox
+            android:id="@+id/menosTamaño"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disminuir tamaño"
+            android:textSize="28dp"
+            android:onClick="checkeado"
+            android:layout_marginEnd="21dp"
+            tools:layout_constraintTop_creator="1"
+            tools:layout_constraintRight_creator="1"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="26dp"
+            app:layout_constraintTop_toBottomOf="@+id/masTamaño"
+            android:layout_marginRight="21dp" />
+
+        <CheckBox
+            android:id="@+id/colorRojo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/masTamaño"
+            android:layout_alignRight="@+id/masTamaño"
+            android:onClick="checkeado"
+            android:layout_alignLeft="@+id/masTamaño"
+            android:layout_alignStart="@+id/masTamaño"
+            android:text="Rojo"
+            android:textSize="28dp"
+            tools:layout_constraintTop_creator="1"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/menosTamaño"
+            tools:layout_constraintLeft_creator="1"
+            app:layout_constraintLeft_toLeftOf="@+id/menosTamaño"
+            android:layout_marginLeft="1dp" />
+
+
+</android.support.constraint.ConstraintLayout>

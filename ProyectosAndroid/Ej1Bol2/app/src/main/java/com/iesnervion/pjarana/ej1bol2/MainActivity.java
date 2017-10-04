@@ -1,0 +1,77 @@
+package com.iesnervion.pjarana.ej1bol2;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity /*implements CompoundButton.OnCheckedChangeListener*/{
+    CheckBox negrita;
+    CheckBox masTamaño;
+    CheckBox menosTamaño;
+    CheckBox rojo;
+    int tamaño=18;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        /*negrita.setOnCheckedChangeListener(this);
+        masTamaño.setOnCheckedChangeListener(this);
+        menosTamaño.setOnCheckedChangeListener(this);
+        rojo.setOnCheckedChangeListener(this);*/
+    }
+    public void checkeado (View v)
+    {
+        negrita=(CheckBox)findViewById(R.id.negrita);
+        masTamaño=(CheckBox)findViewById(R.id.masTamaño);
+        menosTamaño=(CheckBox)findViewById(R.id.menosTamaño);
+        rojo=(CheckBox)findViewById(R.id.colorRojo);
+        EditText texto=(EditText)findViewById(R.id.texto);
+        switch(v.getId())
+        {
+            case R.id.negrita:
+                if(negrita.isChecked())
+                {
+                    texto.setTypeface(null, Typeface.BOLD);
+                }
+                break;
+            case R.id.masTamaño:
+                if(masTamaño.isChecked())
+                {
+                    tamaño+=10;
+                    texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
+                    if(menosTamaño.isChecked())
+                    {
+                        tamaño+=10;
+                        menosTamaño.toggle();
+                        texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
+                    }
+                }
+                break;
+            case R.id.menosTamaño:
+                if(menosTamaño.isChecked())
+                {
+                    tamaño-=10;
+                    texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
+                    if(masTamaño.isChecked())
+                    {
+                        tamaño-=10;
+                        masTamaño.toggle();
+                        texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
+                    }
+                }
+                break;
+            case R.id.colorRojo:
+                if(rojo.isChecked())
+                {
+                    texto.setTextColor(Color.RED);
+                }
+                break;
+        }
+    }
+}

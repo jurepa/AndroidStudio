@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.myapplication.MainActivity">
+
+    <EditText
+        android:id="@+id/numero1"
+        android:layout_width="133dp"
+        android:layout_height="53dp"
+        android:hint="Dígito 1"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintVertical_bias="0.622" />
+    <EditText
+        android:id="@+id/numero2"
+        android:inputType="number"
+        android:hint="Dígito 2"
+        android:layout_width="131dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="33dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/numero1"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/numero1"
+        android:layout_marginLeft="33dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Súmalo niño"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="47dp"
+        android:onClick="Suma"
+        app:layout_constraintTop_toBottomOf="@+id/numero2"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+    <TextView
+        android:id="@+id/resultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/numero1"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintRight_toRightOf="@+id/numero1"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="9dp" />
+
+</android.support.constraint.ConstraintLayout>

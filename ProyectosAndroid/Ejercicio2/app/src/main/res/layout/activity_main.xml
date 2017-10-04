@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.ejercicio2.MainActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Escribe aquí"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintVertical_bias="0.35"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:id="@+id/editText" />
+    <Button
+        android:id="@+id/rojo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rojo"
+        android:onClick="botonPulsado"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/azul"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="97dp"
+        app:layout_constraintLeft_toLeftOf="@+id/azul" />
+    <Button
+        android:id="@+id/azul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Azul"
+        android:onClick="botonPulsado"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/rojo"
+        app:layout_constraintRight_toRightOf="@+id/verde"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintLeft_toLeftOf="@+id/verde" />
+    <Button
+        android:id="@+id/verde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verde"
+        android:onClick="botonPulsado"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/azul"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="@+id/editText"
+        android:layout_marginBottom="21dp"
+        android:layout_marginRight="8dp" />
+
+</android.support.constraint.ConstraintLayout>

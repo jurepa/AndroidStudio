@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
                 {
                     texto.setTypeface(null, Typeface.BOLD);
                 }
+                else
+                {
+                    texto.setTypeface(null, Typeface.NORMAL);
+                }
                 break;
             case R.id.masTamaño:
                 if(masTamaño.isChecked())
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
                         menosTamaño.toggle();
                         texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
                     }
+                }
+                else
+                {
+                    tamaño-=10;
+                    texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
                 }
                 break;
             case R.id.menosTamaño:
@@ -65,11 +74,20 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
                         texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
                     }
                 }
+                else
+                {
+                    tamaño+=10;
+                    texto.setTextSize(TypedValue.COMPLEX_UNIT_DIP,tamaño);
+                }
                 break;
             case R.id.colorRojo:
                 if(rojo.isChecked())
                 {
                     texto.setTextColor(Color.RED);
+                }
+                else
+                {
+                    texto.setTextColor(Color.BLACK);
                 }
                 break;
         }

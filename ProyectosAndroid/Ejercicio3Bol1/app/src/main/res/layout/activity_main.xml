@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iesnervion.pjarana.ejercicio3bol1.MainActivity">
+    tools:context="com.iesnervion.pjarana.ejercicio3bol1.MainActivity"
+    android:orientation="vertical">
 
     <EditText
-        android:layout_width="0dp"
-        android:layout_height="68dp"
+        android:id="@+id/texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="130dp"
         android:hint="Escribe aquí"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.465"
-        android:id="@+id/texto"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="26dp"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
-        app:layout_constraintHorizontal_bias="1.0" />
+        tools:layout_constraintRight_creator="1" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/derecha"
         android:onClick="alinear"
         android:text="Alinear derecha"
+        android:layout_marginLeft="110dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="parent"
@@ -43,12 +44,12 @@
         android:id="@+id/izquierda"
         android:onClick="alinear"
         android:text="Alinear izquierda"
-        android:layout_marginStart="26dp"
+        android:layout_marginLeft="110dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/derecha"
         tools:layout_constraintBaseline_creator="1"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="26dp" />
+        />
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

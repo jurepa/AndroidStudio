@@ -20,30 +20,24 @@ public class MainActivity extends AppCompatActivity {
         TextView resultado=(TextView)findViewById(R.id.resultado);
         EditText numero1=(EditText)findViewById(R.id.numero1);
         EditText numero2=(EditText)findViewById(R.id.numero2);
+        numero1int=Integer.parseInt(numero1.getText().toString());
+        numero2int=Integer.parseInt(numero2.getText().toString());
 
         switch(v.getId())
         {
             case R.id.sumar:
-                numero1int=Integer.parseInt(numero1.getText().toString());
-                numero2int=Integer.parseInt(numero2.getText().toString());
                 resultadoint=numero1int+numero2int;
                 resultado.setText(String.valueOf(resultadoint));
                 break;
             case R.id.restar:
-                numero1int=Integer.parseInt(numero1.getText().toString());
-                numero2int=Integer.parseInt(numero2.getText().toString());
                 resultadoint=numero1int-numero2int;
                 resultado.setText(String.valueOf(resultadoint));
                 break;
             case R.id.multiplicar:
-                numero1int=Integer.parseInt(numero1.getText().toString());
-                numero2int=Integer.parseInt(numero2.getText().toString());
                 resultadoint=numero1int*numero2int;
                 resultado.setText(String.valueOf(resultadoint));
                 break;
             case R.id.dividir:
-                numero1int=Integer.parseInt(numero1.getText().toString());
-                numero2int=Integer.parseInt(numero2.getText().toString());
                 resultadoint=numero1int/numero2int;
                 resultado.setText(String.valueOf(resultadoint));
                 break;

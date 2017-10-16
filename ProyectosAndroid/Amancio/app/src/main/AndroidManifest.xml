@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Log in"/>
+            android:label="Log in"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.R.attr.onClick;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
         ListView lista=(ListView)findViewById(R.id.pokemon);
         IconicAdapter <String> adapter=new IconicAdapter<String>(this,R.layout.estilo_lista, R.id.nombrePokemon, cosas);
         lista.setAdapter(adapter);
+        lista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(getApplicationContext(),"Tipo fuego",Toast.LENGTH_SHORT).show();
+            }
+        });
         super.onCreate(savedInstanceState);
     }
     class IconicAdapter<T> extends ArrayAdapter<T>

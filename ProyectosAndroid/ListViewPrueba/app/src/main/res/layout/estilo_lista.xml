@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nombre Pokemon"
-        android:id="@+id/nombrePokemon"
-        android:textSize="21sp"
-        android:textColor="#f65034"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imagenPokemon"
-        android:layout_toEndOf="@+id/imagenPokemon" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,11 +10,19 @@
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp"
         android:id="@+id/imagenPokemon"
-        android:cropToPadding="false"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/nombrePokemon"
-        android:maxHeight="35dp"
-        android:maxWidth="74dp"
         android:adjustViewBounds="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/nombrePokemon"
+        android:textSize="21sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imagenPokemon"
+        android:layout_toEndOf="@+id/imagenPokemon" />
+
+
     <!--falta src !-->
-</RelativeLayout>
+</LinearLayout>

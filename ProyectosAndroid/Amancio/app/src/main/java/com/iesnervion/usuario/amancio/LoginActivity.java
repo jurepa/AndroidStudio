@@ -15,8 +15,4 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
     }
-    public void goHome(View v)
-    {
-        finish();
-    }
 }

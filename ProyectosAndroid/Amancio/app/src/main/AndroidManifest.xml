@@ -19,7 +19,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="Log in"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

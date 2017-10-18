@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        super.onCreate(savedInstanceState);
+
 
     }
     class IconicAdapter<T> extends ArrayAdapter<T>

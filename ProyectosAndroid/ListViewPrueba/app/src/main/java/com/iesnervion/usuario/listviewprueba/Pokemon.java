@@ -38,6 +38,7 @@ public class Pokemon
         this.nombre=nombre;
         this.tipo=tipo;
         this.icono=icono;
+        this.sonido=sonido;
     }
     //Constructor de copia
     public Pokemon(Pokemon p)
@@ -74,7 +75,7 @@ public class Pokemon
     }
     public int getSonido()
     {
-        return  icono;
+        return sonido;
     }
     public void setSonido(int sonido)
     {

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long l)
             {
                 Pokemon pokemon = adapter.getItem(posicion);
+
                 MediaPlayer mp1= MediaPlayer.create(getApplicationContext(),pokemon.getSonido());
                 mp1.start();
                 if(pokemon.getTipo().length==2)

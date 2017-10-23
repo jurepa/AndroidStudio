@@ -1,10 +1,12 @@
 package com.iesnervion.usuario.listviewprueba;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,9 +68,11 @@ public class MainActivity extends AppCompatActivity
         {
             super(c,resourceId,textId,objects);
         }
-        public View getView(int posicion, View convertView, ViewGroup parent)
+        /*public View getView(int posicion, View convertView, ViewGroup parent)
         {
             View fila = super.getView(posicion, convertView, parent);
+            ViewHolder vh=new ViewHolder();
+            fila.setTag(new ViewHolder());
             ImageView imagen=(ImageView)fila.findViewById(R.id.imagenPokemon);
             TextView nombre=(TextView)fila.findViewById(R.id.nombrePokemon);
             Pokemon pokemon=pokedex[posicion];
@@ -87,6 +91,38 @@ public class MainActivity extends AppCompatActivity
                 nombre.setTextColor(Color.BLUE);
             }
             return fila;
+        }*/
+        public View getView(int pos, View convertView, ViewGroup parent)
+        {
+            ViewHolder vh;
+            Pokemon pokemon;
+            if (convertView==null)//El primer convertView siempre sera null, por lo queentramos aquí para inicializarlo
+            {
+                LayoutInflater li=((Activity)getApplicationContext()).getLayoutInflater(); //Creaos el layoutInflater
+                convertView = li.inflate(R.layout.estilo_lista, parent, false); //Le decimos con qué estilo inflaremos la fila
+                vh=new ViewHolder(); //Creamos el ViewHolder e inicializaoms sus atributos
+                vh.texto=(TextView) findViewById(R.id.nombrePokemon);
+                vh.icono=(ImageView)findViewById(R.id.imagenPokemon);
+                convertView.setTag(vh); //Le  decioms que convertview tendrá como  tag al viewHolder
+            }
+            else
+            {
+                vh=(ViewHolder)convertView.getTag(); //Para evitar llamar a findViewById, haremos que los "nuevos" viewHolder tengan el  mismo tag que el primero
+            }
+
+            pokemon=pokedex[pos];
+            if (pokemon!=null)
+            {
+                vh.texto.setText(pokemon.getNombre());
+                vh.icono.setImageResource(pokemon.getIcono());
+                vh.texto.setTag(pokemon.hashCode());
+            }
+            return convertView;
         }
+    }
+    static class ViewHolder //ViewHolder sera estática, puesto que en getView deberemos tomar el valor del  viewHolder anterior
+    {
+        TextView texto;
+        ImageView icono;
     }
 }

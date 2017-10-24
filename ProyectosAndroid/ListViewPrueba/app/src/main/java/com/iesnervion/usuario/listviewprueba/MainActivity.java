@@ -1,6 +1,7 @@
 package com.iesnervion.usuario.listviewprueba;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -37,11 +38,12 @@ public class MainActivity extends AppCompatActivity
     private final Pokemon[]pokedex={charmander,charmeleon,charizard,squirtle,wartortle,blastoise,bulbasaur,ivysaur,venasaur};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView lista=(ListView)findViewById(R.id.pokemon);
         final IconicAdapter <Pokemon> adapter=new IconicAdapter<Pokemon>(this,R.layout.estilo_lista, R.id.nombrePokemon, pokedex);
         lista.setAdapter(adapter);
-        super.onCreate(savedInstanceState);
+
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int posicion, long l)
@@ -93,17 +95,16 @@ public class MainActivity extends AppCompatActivity
             }
             return fila;
         }*/
+        @Override
         public View getView(int pos, View convertView, ViewGroup parent)
         {
             ViewHolder vh;
             Pokemon pokemon;
             if (convertView==null)//El primer convertView siempre sera null, por lo queentramos aquí para inicializarlo
             {
-                LayoutInflater li=((Activity)getApplicationContext()).getLayoutInflater(); //Creaos el layoutInflater
+                LayoutInflater li=getLayoutInflater(); //Creamos el layoutInflater
                 convertView = li.inflate(R.layout.estilo_lista, parent, false); //Le decimos con qué estilo inflaremos la fila
-                vh=new ViewHolder(); //Creamos el ViewHolder e inicializaoms sus atributos
-                vh.texto=(TextView) findViewById(R.id.nombrePokemon);
-                vh.icono=(ImageView)findViewById(R.id.imagenPokemon);
+                vh=new ViewHolder(convertView,R.id.nombrePokemon,R.id.imagenPokemon); //Creamos el ViewHolder e inicializamos sus atributos
                 convertView.setTag(vh); //Le  decioms que convertview tendrá como  tag al viewHolder
             }
             else
@@ -115,15 +116,42 @@ public class MainActivity extends AppCompatActivity
             if (pokemon!=null)
             {
                 vh.texto.setText(pokemon.getNombre());
+                if(pokemon.getTipo()[0].equals("Fuego"))
+                {
+                    vh.texto.setTextColor(Color.RED);
+                }
+                else if(pokemon.getTipo()[0].equals("Planta"))
+                {
+                    vh.texto.setTextColor(Color.GREEN);
+                }
+                else
+                {
+                    vh.texto.setTextColor(Color.BLUE);
+                }
                 vh.icono.setImageResource(pokemon.getIcono());
                 vh.texto.setTag(pokemon.hashCode());
             }
             return convertView;
         }
     }
-    static class ViewHolder //ViewHolder sera estática, puesto que en getView deberemos tomar el valor del  viewHolder anterior
+    class ViewHolder //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
     {
         TextView texto;
         ImageView icono;
+
+        public ViewHolder(View row, int idtexto, int idicono)
+        {
+            this.texto=(TextView)row.findViewById(idtexto);
+            this.icono=(ImageView)row.findViewById(idicono);
+        }
+
+        public TextView getTexto()
+        {
+            return texto;
+        }
+        public ImageView getIcono()
+        {
+            return icono;
+        }
     }
 }

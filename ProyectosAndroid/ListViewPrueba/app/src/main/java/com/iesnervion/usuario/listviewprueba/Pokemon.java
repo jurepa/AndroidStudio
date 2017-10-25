@@ -21,6 +21,7 @@ public class Pokemon
 {
     private String nombre;
     private String[] tipo;
+    private String nivelEvolucion;
     private int icono;
     private int sonido;
 
@@ -31,10 +32,12 @@ public class Pokemon
         tipo=new String[2];
         icono=R.drawable.ultrabola;
         sonido=0;
+        nivelEvolucion="1";
     }
     //Constructor por parámetros
-    public Pokemon(String nombre, String [] tipo, int icono, int sonido)
+    public Pokemon(String nombre, String [] tipo, int icono, int sonido, String nivelEvolucion)
     {
+        this.nivelEvolucion=nivelEvolucion;
         this.nombre=nombre;
         this.tipo=tipo;
         this.icono=icono;
@@ -43,6 +46,7 @@ public class Pokemon
     //Constructor de copia
     public Pokemon(Pokemon p)
     {
+        this.nivelEvolucion=p.nivelEvolucion;
         this.nombre=p.nombre;
         this.tipo=p.tipo;
         this.icono=p.icono;
@@ -81,4 +85,6 @@ public class Pokemon
     {
         this.sonido=sonido;
     }
+    public String getNivelEvolucion(){return nivelEvolucion; }
+    public void setNivelEvolucion(String nivelEvolucion){ this.nivelEvolucion=nivelEvolucion;}
 }

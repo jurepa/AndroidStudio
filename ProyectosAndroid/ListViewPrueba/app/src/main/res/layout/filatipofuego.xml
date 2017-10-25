@@ -14,18 +14,28 @@
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/nombrePokemon"
         android:adjustViewBounds="true" />
-
-    <TextView
-        android:id="@+id/nombrePokemon"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="right"
-        android:layout_toEndOf="@+id/imagenPokemon"
-        android:layout_toRightOf="@+id/imagenPokemon"
-        android:text="hola"
-        android:textAlignment="center"
-        android:textSize="21sp" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/nombrePokemon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hola"
+            android:textSize="21sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tipo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nivelEvolucion"
+            />
+    </LinearLayout>
+
+
 
 
     <!--falta src !-->

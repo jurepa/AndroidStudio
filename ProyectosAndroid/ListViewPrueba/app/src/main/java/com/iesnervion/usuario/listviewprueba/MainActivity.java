@@ -1,7 +1,5 @@
 package com.iesnervion.usuario.listviewprueba;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -17,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.attr.onClick;
-
 
 public class MainActivity extends AppCompatActivity
 {
@@ -26,22 +22,28 @@ public class MainActivity extends AppCompatActivity
     String[]tipoFuegoVolador={"Fuego","Volador"};
     String[]tipoPlantaVeneno={"Planta","Veneno"};
     String[]tipoAgua={"Agua"};
-    Pokemon charmander=new Pokemon("Charmander",tipoFuego,R.drawable.charmander,R.raw.charmandergrito);
-    Pokemon charmeleon=new Pokemon("Charmeleon",tipoFuego,R.drawable.charmeleon_icon,R.raw.charmeleongrito);
-    Pokemon charizard=new Pokemon("Charizard",tipoFuegoVolador,R.drawable.charizard_icon,R.raw.charizardgrito);
-    Pokemon bulbasaur=new Pokemon("Bulbasaur",tipoPlantaVeneno,R.drawable.bullbasaur,R.raw.bulbasaurgrito);
-    Pokemon ivysaur=new Pokemon("Ivysaur",tipoPlantaVeneno,R.drawable.ivysaur_icon,R.raw.ivysaurgrito);
-    Pokemon venasaur=new Pokemon("Venusaur",tipoPlantaVeneno,R.drawable.venusaur_icon,R.raw.venasaurgrito);
-    Pokemon squirtle=new Pokemon("Squirtle",tipoAgua,R.drawable.squirtle,R.raw.squirtlegrito);
-    Pokemon wartortle=new Pokemon("Wartortle",tipoAgua,R.drawable.wartortle_icon,R.raw.wartortlegrito);
-    Pokemon blastoise=new Pokemon("Blastoise",tipoAgua,R.drawable.blastoise_icon,R.raw.blastoisegrito);
-    private final Pokemon[]pokedex={charmander,charmeleon,charizard,squirtle,wartortle,blastoise,bulbasaur,ivysaur,venasaur};
+    String[]tipoSiniestroVolador={"Siniestro","Volador"};
+    Pokemon charmander=new Pokemon("Charmander",tipoFuego,R.drawable.charmander,R.raw.charmandergrito,"16");
+    Pokemon charmeleon=new Pokemon("Charmeleon",tipoFuego,R.drawable.charmeleon_icon,R.raw.charmeleongrito,"36");
+    Pokemon charizard=new Pokemon("Charizard",tipoFuegoVolador,R.drawable.charizard_icon,R.raw.charizardgrito,"No evoluciona");
+    Pokemon bulbasaur=new Pokemon("Bulbasaur",tipoPlantaVeneno,R.drawable.bullbasaur,R.raw.bulbasaurgrito,"16");
+    Pokemon ivysaur=new Pokemon("Ivysaur",tipoPlantaVeneno,R.drawable.ivysaur_icon,R.raw.ivysaurgrito,"32");
+    Pokemon venasaur=new Pokemon("Venusaur",tipoPlantaVeneno,R.drawable.venusaur_icon,R.raw.venasaurgrito,"No evoluciona");
+    Pokemon squirtle=new Pokemon("Squirtle",tipoAgua,R.drawable.squirtle,R.raw.squirtlegrito,"16");
+    Pokemon wartortle=new Pokemon("Wartortle",tipoAgua,R.drawable.wartortle_icon,R.raw.wartortlegrito,"36");
+    Pokemon blastoise=new Pokemon("Blastoise",tipoAgua,R.drawable.blastoise_icon,R.raw.blastoisegrito,"No evoluciona");
+    Pokemon magmortar=new Pokemon("Magmortar", tipoFuego,R.drawable.magmortar,R.raw.magmortargrito,"No evoluciona");
+    Pokemon magmar=new Pokemon("Magmar",tipoFuego,R.drawable.magmar,R.raw.magmargrito,"Intercambiando con magmatizador");
+    Pokemon feebas=new Pokemon("Feebas",tipoAgua,R.drawable.feebas,R.raw.feebasgrito,"Intercambiando con Escama Bella");
+    Pokemon milotic=new Pokemon("Milotic",tipoAgua,R.drawable.milotic,R.raw.miloticgrito,"No evoluciona");
+    Pokemon yveltal=new Pokemon("Yveltal", tipoSiniestroVolador,R.drawable.yveltal,R.raw.yveltalgrito,"No evoluciona");
+    private final Pokemon[]pokedex={charmander,charizard,squirtle,venasaur,wartortle,charmeleon,blastoise,bulbasaur,ivysaur,magmar,magmortar,venasaur,feebas,milotic,yveltal};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView lista=(ListView)findViewById(R.id.pokemon);
-        final IconicAdapter <Pokemon> adapter=new IconicAdapter<Pokemon>(this,R.layout.estilo_lista, R.id.nombrePokemon, pokedex);
+        final IconicAdapter <Pokemon> adapter=new IconicAdapter<Pokemon>(this,R.layout.filatipofuego, R.id.nombrePokemon, pokedex);
         lista.setAdapter(adapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,6 +73,30 @@ public class MainActivity extends AppCompatActivity
         {
             super(c,resourceId,textId,objects);
         }
+        @Override
+        public int getViewTypeCount() //Devuelve el número de tipo de filas
+        {
+            return 3;
+        }
+        @Override
+        public  int getItemViewType(int pos) //Devuelve un número que indica el tipo de fila
+        {
+            Pokemon pokemon=pokedex[pos];
+            int view;
+            if(pokemon.getTipo()[0].equals("Fuego"))
+            {
+                view=0;
+            }
+            else if(pokemon.getTipo()[0].equals("Agua"))
+            {
+                view=1;
+            }
+            else
+            {
+                view=2;
+            }
+            return view;
+        }
         /*public View getView(int posicion, View convertView, ViewGroup parent)
         {
             View fila = super.getView(posicion, convertView, parent);
@@ -98,60 +124,189 @@ public class MainActivity extends AppCompatActivity
         @Override
         public View getView(int pos, View convertView, ViewGroup parent)
         {
-            ViewHolder vh;
+            ViewHolderFuego vhFuego=null; //Un ViewHolder por cada tipo de fila
+            ViewHolderAgua vhAgua=null;
+            ViewHolderPlanta vhPlanta=null;
             Pokemon pokemon;
-            if (convertView==null)//El primer convertView siempre sera null, por lo queentramos aquí para inicializarlo
+            int rowType=getItemViewType(pos);
+            if (convertView==null)//El primer convertView siempre sera null, por lo que entramos aquí para inicializarlo e inflarlo
             {
                 LayoutInflater li=getLayoutInflater(); //Creamos el layoutInflater
-                convertView = li.inflate(R.layout.estilo_lista, parent, false); //Le decimos con qué estilo inflaremos la fila
-                vh=new ViewHolder(convertView,R.id.nombrePokemon,R.id.imagenPokemon); //Creamos el ViewHolder e inicializamos sus atributos
-                convertView.setTag(vh); //Le  decioms que convertview tendrá como  tag al viewHolder
+                switch(rowType) //Dependiendo el tipo de fila lo inflamos con un tipo de fila u otra
+                {
+                    case 0:
+                        convertView = li.inflate(R.layout.filatipofuego, parent, false);
+                        vhFuego=new ViewHolderFuego(convertView); //Creamos el ViewHolder e inicializamos sus atributos
+                        convertView.setTag(vhFuego); //Le  decioms que convertview tendrá como  tag al viewHolder
+                        break;
+                    case 1:
+                        convertView = li.inflate(R.layout.filatipoagua, parent, false);
+                        vhAgua=new ViewHolderAgua(convertView);
+                        convertView.setTag(vhAgua);
+                        break;
+                    case 2:
+                        convertView=li.inflate(R.layout.filatipoplanta,parent,false);
+                        vhPlanta=new ViewHolderPlanta(convertView);
+                        convertView.setTag(vhPlanta);
+                        break;
+                }
             }
             else
             {
-                vh=(ViewHolder)convertView.getTag(); //Para evitar llamar a findViewById, haremos que los "nuevos" viewHolder tengan el  mismo tag que el primero
+                switch (rowType)
+                {
+                    case 0:
+                        vhFuego = (ViewHolderFuego) convertView.getTag(); //Para evitar llamar a findViewById, haremos que los "nuevos" viewHolder tengan el  mismo tag que el primero
+                        break;
+                    case 1:
+                        vhAgua = (ViewHolderAgua) convertView.getTag();
+                        break;
+                    case 2:
+                        vhPlanta=(ViewHolderPlanta)convertView.getTag();
+                        break;
+                }
             }
 
             pokemon=pokedex[pos];
             if (pokemon!=null)
             {
-                vh.texto.setText(pokemon.getNombre());
-                if(pokemon.getTipo()[0].equals("Fuego"))
-                {
-                    vh.texto.setTextColor(Color.RED);
+                switch(rowType) {
+                    case 0:
+                        vhFuego.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhFuego.nombre.setTextColor(Color.RED);
+                        vhFuego.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
+                        if (pokemon.getTipo().length == 2) {
+                            vhFuego.tipo.setText("Tipos: " + pokemon.getTipo()[0] + " y " + pokemon.getTipo()[1]);
+                        } else {
+                            vhFuego.tipo.setText("Tipo: " + pokemon.getTipo()[0]);
+                        }
+                        vhFuego.icono.setImageResource(pokemon.getIcono());
+                        vhFuego.nombre.setTag(pokemon.hashCode());
+                        break;
+                    case 1:
+                        vhAgua.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhAgua.nombre.setTextColor(Color.BLUE);
+                        vhAgua.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
+                        if (pokemon.getTipo().length == 2) {
+                            vhAgua.tipo.setText("Tipos: " + pokemon.getTipo()[0] + " y " + pokemon.getTipo()[1]);
+                        } else {
+                            vhAgua.tipo.setText("Tipo: " + pokemon.getTipo()[0]);
+                        }
+                        vhAgua.icono.setImageResource(pokemon.getIcono());
+                        vhAgua.nombre.setTag(pokemon.hashCode());
+                        break;
+                    case 2:
+                        vhPlanta.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhPlanta.nombre.setTextColor(Color.GREEN);
+                        vhPlanta.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
+                        if (pokemon.getTipo().length == 2) {
+                            vhPlanta.tipo.setText("Tipos: " + pokemon.getTipo()[0] + " y " + pokemon.getTipo()[1]);
+                        } else {
+                            vhPlanta.tipo.setText("Tipo: " + pokemon.getTipo()[0]);
+                        }
+                        vhPlanta.icono.setImageResource(pokemon.getIcono());
+                        vhPlanta.nombre.setTag(pokemon.hashCode());
+                        break;
+
                 }
-                else if(pokemon.getTipo()[0].equals("Planta"))
-                {
-                    vh.texto.setTextColor(Color.GREEN);
-                }
-                else
-                {
-                    vh.texto.setTextColor(Color.BLUE);
-                }
-                vh.icono.setImageResource(pokemon.getIcono());
-                vh.texto.setTag(pokemon.hashCode());
             }
             return convertView;
         }
     }
-    class ViewHolder //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
+    class ViewHolderFuego //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
     {
-        TextView texto;
+        TextView nombre;
+        TextView tipo;
+        TextView nivelEvolucion;
         ImageView icono;
 
-        public ViewHolder(View row, int idtexto, int idicono)
+        public ViewHolderFuego(View row)
         {
-            this.texto=(TextView)row.findViewById(idtexto);
-            this.icono=(ImageView)row.findViewById(idicono);
+                this.nombre =(TextView)row.findViewById(R.id.nombrePokemon);
+                this.tipo=(TextView)row.findViewById(R.id.tipo);
+                this.nivelEvolucion=(TextView)row.findViewById(R.id.nivelEvolucion);
+                this.icono=(ImageView)row.findViewById(R.id.imagenPokemon);
         }
 
-        public TextView getTexto()
+        public TextView getNombre()
         {
-            return texto;
+            return nombre;
+
         }
         public ImageView getIcono()
         {
             return icono;
+        }
+        public TextView getTipo() {
+            return tipo;
+        }
+
+        public TextView getNivelEvolucion() {
+            return nivelEvolucion;
+        }
+    }
+    class ViewHolderAgua //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
+    {
+        TextView nombre;
+        TextView tipo;
+        TextView nivelEvolucion;
+        ImageView icono;
+
+        public ViewHolderAgua(View row)
+        {
+            this.nombre =(TextView)row.findViewById(R.id.nombrePokemonAgua);
+            this.tipo=(TextView)row.findViewById(R.id.tipoAgua);
+            this.nivelEvolucion=(TextView)row.findViewById(R.id.nivelEvolucionAgua);
+            this.icono=(ImageView)row.findViewById(R.id.imagenPokemonAgua);
+        }
+
+        public TextView getNombre()
+        {
+            return nombre;
+
+        }
+        public ImageView getIcono()
+        {
+            return icono;
+        }
+        public TextView getTipo() {
+            return tipo;
+        }
+
+        public TextView getNivelEvolucion() {
+            return nivelEvolucion;
+        }
+    }
+    class ViewHolderPlanta //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
+    {
+        TextView nombre;
+        TextView tipo;
+        TextView nivelEvolucion;
+        ImageView icono;
+
+        public ViewHolderPlanta(View row)
+        {
+            this.nombre =(TextView)row.findViewById(R.id.nombrePlanta);
+            this.tipo=(TextView)row.findViewById(R.id.tipoPlanta);
+            this.nivelEvolucion=(TextView)row.findViewById(R.id.nivelEvolucionPlanta);
+            this.icono=(ImageView)row.findViewById(R.id.imagenPlanta);
+        }
+
+        public TextView getNombre()
+        {
+            return nombre;
+
+        }
+        public ImageView getIcono()
+        {
+            return icono;
+        }
+        public TextView getTipo() {
+            return tipo;
+        }
+
+        public TextView getNivelEvolucion() {
+            return nivelEvolucion;
         }
     }
 }

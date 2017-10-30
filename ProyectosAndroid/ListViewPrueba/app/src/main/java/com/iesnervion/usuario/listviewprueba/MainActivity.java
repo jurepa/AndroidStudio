@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
             {
                 switch(rowType) {
                     case 0:
-                        vhFuego.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhFuego.nombre.setText(pokemon.getNombre());
                         vhFuego.nombre.setTextColor(Color.RED);
                         vhFuego.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
                         if (pokemon.getTipo().length == 2) {
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity
                         vhFuego.nombre.setTag(pokemon.hashCode());
                         break;
                     case 1:
-                        vhAgua.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhAgua.nombre.setText(pokemon.getNombre());
                         vhAgua.nombre.setTextColor(Color.BLUE);
                         vhAgua.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
                         if (pokemon.getTipo().length == 2) {
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                         vhAgua.nombre.setTag(pokemon.hashCode());
                         break;
                     case 2:
-                        vhPlanta.nombre.setText("Nombre: " + pokemon.getNombre());
+                        vhPlanta.nombre.setText(pokemon.getNombre());
                         vhPlanta.nombre.setTextColor(Color.GREEN);
                         vhPlanta.nivelEvolucion.setText("Nivel de evolución: " + pokemon.getNivelEvolucion());
                         if (pokemon.getTipo().length == 2) {

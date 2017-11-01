@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private final Pokemon[]Otros={yveltal};
     ListView lista;
     Spinner spinner;
+    MyAdapter<Pokemon>adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,24 +77,24 @@ public class MainActivity extends AppCompatActivity {
                 switch(tiposSpinner[pos])
                 {
                     case "Todos":
-                            MyAdapter<Pokemon>todosPokemon=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokedex);
-                            lista.setAdapter(todosPokemon);
+                            adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokedex);
+                            lista.setAdapter(adapter);
                         break;
                     case "Fuego":
-                            MyAdapter<Pokemon>adapterFuego=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokemonsFuego);
-                            lista.setAdapter(adapterFuego);
+                            adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokemonsFuego);
+                            lista.setAdapter(adapter);
                         break;
                     case "Agua":
-                            MyAdapter<Pokemon>adapterAgua=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipoagua,pokemonsAgua);
-                            lista.setAdapter(adapterAgua);
+                            adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipoagua,pokemonsAgua);
+                            lista.setAdapter(adapter);
                             break;
                     case "Planta":
-                            MyAdapter<Pokemon>adapterPlanta=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipoplanta,pokemonsPlanta);
-                            lista.setAdapter(adapterPlanta);
+                            adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipoplanta,pokemonsPlanta);
+                            lista.setAdapter(adapter);
                             break;
                     case "Otros":
-                            MyAdapter<Pokemon>adapterOtros=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,Otros);
-                            lista.setAdapter(adapterOtros);
+                            adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,Otros);
+                            lista.setAdapter(adapter);
                         break;
                 }
 

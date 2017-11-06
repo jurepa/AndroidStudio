@@ -1,5 +1,5 @@
 package com.iesnervion.usuario.spinnerlistview;
-
+//Usar notifydatasetchanged, solo un array que se actualiza !!!!!!!!!!!!!!!!!!!
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     case "Todos":
                             adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokedex);
                             lista.setAdapter(adapter);
+
                         break;
                     case "Fuego":
                             adapter=new MyAdapter<Pokemon>(getApplicationContext(),R.layout.filatipofuego,pokemonsFuego);

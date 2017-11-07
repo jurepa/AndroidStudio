@@ -11,16 +11,12 @@ import android.widget.TextView;
 public class DefaultViewHolder //A su cosntructor le pasaremos el converView y los R.id.loquesea dependiendo lo q tengamos en el layout de la fila
 {
     TextView nombre;
-    TextView tipo;
-    TextView nivelEvolucion;
     ImageView icono;
 
-    public DefaultViewHolder(View row, int nombrePokemon, int tipo, int nivel, int icono)
+    public DefaultViewHolder(View row)
     {
-        this.nombre =(TextView)row.findViewById(nombrePokemon);
-        this.tipo=(TextView)row.findViewById(tipo);
-        this.nivelEvolucion=(TextView)row.findViewById(nivel);
-        this.icono=(ImageView)row.findViewById(icono);
+        this.nombre =(TextView)row.findViewById(R.id.nombrePokemon);
+        this.icono=(ImageView)row.findViewById(R.id.iconoPokemon);
     }
 
     public TextView getNombre()
@@ -31,12 +27,5 @@ public class DefaultViewHolder //A su cosntructor le pasaremos el converView y l
     public ImageView getIcono()
     {
         return icono;
-    }
-    public TextView getTipo() {
-        return tipo;
-    }
-
-    public TextView getNivelEvolucion() {
-        return nivelEvolucion;
     }
 }

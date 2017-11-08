@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     GestoraListNBA gestora;
     ArrayAdapter<String>adapterSpinner;
+    int contador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         equipos.add(sac);
         equipos.add(sspurs);
         equipos.add(uta);
+        contador=0;
         gestora=new GestoraListNBA();
         button=(Button)findViewById(R.id.boton);
         spinner=(Spinner)findViewById(R.id.spinner);
@@ -68,21 +70,22 @@ public class MainActivity extends AppCompatActivity {
         texto=(AutoCompleteTextView)findViewById(R.id.textSuggest);
         MyAdapter<EquipoNBA>adapterLista=new MyAdapter<EquipoNBA>(getApplicationContext(),R.layout.row_style,equipos);
         lista.setAdapter(adapterLista);
-        ArrayAdapter<String>adapterAutocomplete=new ArrayAdapter<String>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,equiposAutoComplete);
+        ArrayAdapter<String>adapterAutocomplete=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,equiposAutoComplete);
         texto.setAdapter(adapterAutocomplete);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 String nombreEquipo=texto.getText().toString();
-                int contador=0;
+
                 if(contador<4) {
                     if (!gestora.comprobarNombre(nombreEquipo, equipos)) {
                         Toast.makeText(getApplicationContext(), "No se ha encontrado ese equipo", Toast.LENGTH_SHORT);
                     } else {
                         contador++;
                         equiposSpinner.add(nombreEquipo);
-                        adapterSpinner = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, equiposSpinner);
+                        adapterSpinner = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item,R.id.customSpinnerItemTextView, equiposSpinner);
+                        spinner.setAdapter(adapterSpinner);
                     }
                 }
                 else

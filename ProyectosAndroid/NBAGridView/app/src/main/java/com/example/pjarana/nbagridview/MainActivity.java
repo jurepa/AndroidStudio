@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     GestoraListNBA gestora;
     ArrayAdapter<String>adapterSpinner;
-    int contador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         equipos.add(sac);
         equipos.add(sspurs);
         equipos.add(uta);
-        contador=0;
         gestora=new GestoraListNBA();
         button=(Button)findViewById(R.id.boton);
         spinner=(Spinner)findViewById(R.id.spinner);
@@ -78,11 +76,10 @@ public class MainActivity extends AppCompatActivity {
             {
                 String nombreEquipo=texto.getText().toString();
 
-                if(contador<4) {
+                if(adapterSpinner.getCount()<4) {
                     if (!gestora.comprobarNombre(nombreEquipo, equipos)) {
                         Toast.makeText(getApplicationContext(), "No se ha encontrado ese equipo", Toast.LENGTH_SHORT);
                     } else {
-                        contador++;
                         equiposSpinner.add(nombreEquipo);
                         adapterSpinner = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item,R.id.customSpinnerItemTextView, equiposSpinner);
                         spinner.setAdapter(adapterSpinner);

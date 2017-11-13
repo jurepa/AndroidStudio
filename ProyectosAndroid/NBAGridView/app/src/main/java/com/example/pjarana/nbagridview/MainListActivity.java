@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainListActivity extends AppCompatActivity {
 
     EquipoNBA dallas=new EquipoNBA("Dallas Maverick",R.drawable.dallas);
     EquipoNBA clippers=new EquipoNBA("Los Angeles Clippers",R.drawable.clippers);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mainlist);
         equipos.add(dallas);
         equipos.add(denver);
         equipos.add(gsw);

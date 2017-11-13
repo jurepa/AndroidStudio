@@ -11,7 +11,7 @@ public class Ej2Bol2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ej2bol2);
     }
     public void calculadora(View v)
     {   int numero1int,numero2int,resultadoint;

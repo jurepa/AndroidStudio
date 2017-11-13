@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iesnervion.pjarana.ej1bol2.MainActivity"
+    tools:context="com.iesnervion.pjarana.ej1bol2.Ej1Bol2Activity"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 

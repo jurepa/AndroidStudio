@@ -1,9 +1,10 @@
-package com.iesnervion.usuario.spinnerlistview;
+package com.example.pjarana.ej1bol7;
 //Usar notifydatasetchanged, solo un array que se actualiza !!!!!!!!!!!!!!!!!!!
+
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class FilterListActivity extends AppCompatActivity {
 
     String[]tipoFuego={"Fuego"};
     String[]tipoFuegoVolador={"Fuego","Volador"};
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_filterlist);
         final TextView textView=(TextView)findViewById(R.id.texto);
         spinner= (Spinner)findViewById(R.id.spinner);
         lista=(ListView)findViewById(R.id.lista);

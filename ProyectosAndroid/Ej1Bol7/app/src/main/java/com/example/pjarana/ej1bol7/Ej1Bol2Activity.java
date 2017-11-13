@@ -1,16 +1,15 @@
-package com.iesnervion.pjarana.ej1bol2;
+package com.example.pjarana.ej1bol7;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity /*implements CompoundButton.OnCheckedChangeListener*/{
+public class Ej1Bol2Activity extends AppCompatActivity /*implements CompoundButton.OnCheckedChangeListener*/{
     CheckBox negrita;
     CheckBox masTamaño;
     CheckBox menosTamaño;
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity /*implements CompoundButton.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ej1bol2);
         /*negrita.setOnCheckedChangeListener(this);
         masTamaño.setOnCheckedChangeListener(this);
         menosTamaño.setOnCheckedChangeListener(this);

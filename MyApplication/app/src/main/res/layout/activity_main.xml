@@ -10,7 +10,7 @@
         android:layout_width="101dp"
         android:layout_height="50dp"
         android:text="Hola!!"
-        android:textSize="27"
+        android:textSize="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,14 +21,14 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:hint="@string/Escribe"
-        android:textSize="27"
+        android:textSize="27dp"
         tools:layout_editor_absoluteY="304dp"
         tools:layout_editor_absoluteX="119dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enviar"
-        android:textSize="20"
+        android:textSize="20dp"
         android:onClick="enviarMensaje"
         tools:layout_editor_absoluteY="357dp"
         tools:layout_editor_absoluteX="165dp" />

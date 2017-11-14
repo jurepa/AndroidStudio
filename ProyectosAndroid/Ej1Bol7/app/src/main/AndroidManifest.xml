@@ -19,11 +19,10 @@
         <activity android:name=".Ej1Bol2Activity"/>
         <activity android:name=".FilterListActivity"/>
         <activity android:name=".Ej2Bol2Activity"/>
-        <activity android:name="com.example.pjarana.nbagridview.MainListActivity">
-            <intent-filter>
-                <action android:name="com.example.pjarana.nbagridview"/>
-            </intent-filter>
-        </activity>
     </application>
-
 </manifest>
+    <!--<activity android:name="com.example.pjarana.nbagridview.MainListActivity">
+        <intent-filter>
+            <action android:name="com.example.pjarana.nbagridview"/>
+        </intent-filter>
+    </activity>-!>

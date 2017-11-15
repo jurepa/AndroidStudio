@@ -23,14 +23,14 @@ public class MainActivity extends AppCompatActivity {
     Button hacerFoto;
     Intent i;
     ArrayList<ImageView>imagenes;
-    ArrayAdapter<ImageView>gridAdapter;
+    MyAdapter<ImageView>gridAdapter;
     private static final int PICK_IMAGE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imagenes=new ArrayList<ImageView>();
-        gridAdapter=new ArrayAdapter<ImageView>(getApplicationContext(),android.R.layout.simple_list_item_1,imagenes);
+        gridAdapter=new MyAdapter<>(getApplicationContext(),imagenes);
         numImgs=(EditText)findViewById(R.id.numeroImgs);
         grid=(GridView)findViewById(R.id.grid);
         grid.setAdapter(gridAdapter);

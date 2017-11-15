@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pjarana.ej5bol7.MainActivity">
+
+    <EditText
+        android:id="@+id/numeroImgs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Número de imágenes"
+        android:inputType="number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:id="@+id/grid"
+        android:layout_below="@id/numeroImgs"></GridView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/añadirImgs"
+        android:text="Añadir Imagen"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/btnContinuar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hacerFoto"
+        android:text="Hacer foto"
+        android:layout_toRightOf="@id/añadirImgs"
+        android:layout_toLeftOf="@id/btnContinuar"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

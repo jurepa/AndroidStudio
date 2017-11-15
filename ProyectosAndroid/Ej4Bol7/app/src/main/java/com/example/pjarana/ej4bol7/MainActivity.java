@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[]localizaciones={"Sevilla","Paris","New York","Berlin","Bali","Madagascar","Tokyo","Vancouver"};
+    String[]localizaciones={"","Sevilla","Paris","New York","Berlin","Bali","Madagascar","Tokyo","Vancouver"};
     ArrayAdapter<String>spinnerAdapter;
     Spinner spinner;
     TextView texto;
@@ -35,22 +35,36 @@ public class MainActivity extends AppCompatActivity {
                 switch (ciudadElegida)
                 {
                     case "Sevilla":
-                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:37.3914105,-5.9591776"));
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Sevilla"));
                         startActivity(i);
                         break;
                     case "Paris":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,  0?q=Paris, Francia"));
+                        startActivity(i);
                         break;
                     case "New York":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=New York, Estados Unidos"));
+                        startActivity(i);
                         break;
                     case "Berlin":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Berlin, Alemania"));
+                        startActivity(i);
                         break;
                     case "Madagascar":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Madagascar"));
+                        startActivity(i);
                         break;
                     case "Bali":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Bali"));
+                        startActivity(i);
                         break;
                     case "Tokyo":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Tokyo, Japón"));
+                        startActivity(i);
                         break;
                     case "Vancouver":
+                        i=new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Vancouver,Canadá"));
+                        startActivity(i);
                         break;
 
                 }

@@ -3,6 +3,7 @@ package com.example.pjarana.ej5bol7;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
     Button addImg;
     Button continuar;
     Button hacerFoto;
+    ImageView imagen;
     Intent i;
     ArrayList<ImageView>imagenes;
     MyAdapter<ImageView>gridAdapter;
-    private static final int PICK_IMAGE=1;
+    final int PICK_IMAGE=1;
+    final int CAMERA_IMAGE=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         imagenes=new ArrayList<ImageView>();
         gridAdapter=new MyAdapter<>(getApplicationContext(),imagenes);
         numImgs=(EditText)findViewById(R.id.numeroImgs);
+        hacerFoto=(Button)findViewById(R.id.hacerFoto);
         grid=(GridView)findViewById(R.id.grid);
         grid.setAdapter(gridAdapter);
         addImg=(Button)findViewById(R.id.añadirImgs);
@@ -45,16 +49,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, PICK_IMAGE);
             }
         });
+        hacerFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i, CAMERA_IMAGE);
+            }
+        });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        ImageView imagen=null;
+
         if (requestCode == PICK_IMAGE&& resultCode==RESULT_OK)
         {
             Uri selectedImg=data.getData();
             imagen=new ImageView(getApplicationContext());
             imagen.setImageURI(selectedImg);
+            imagenes.add(imagen);
+            gridAdapter.notifyDataSetChanged();
+        }
+        else if(requestCode==CAMERA_IMAGE &&resultCode==RESULT_OK)
+        {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imagen=new ImageView(getApplicationContext());
+            imagen.setImageBitmap(imageBitmap);
             imagenes.add(imagen);
             gridAdapter.notifyDataSetChanged();
         }

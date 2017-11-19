@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,12 +28,19 @@ public class MainActivity extends AppCompatActivity {
     Intent i;
     ArrayList<ImageView>imagenes;
     MyAdapter<ImageView>gridAdapter;
+    ImageView[]array;
+    AlertDialog.Builder builder;
+    AlertDialog alerta;
     final int PICK_IMAGE=1;
     final int CAMERA_IMAGE=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        builder=new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        builder.setTitle("Error");
+        builder.setMessage("El número de imágenes introducidas no corresponde con el número de imágenes que quiere en la galería");
+        alerta=builder.create();
         imagenes=new ArrayList<ImageView>();
         gridAdapter=new MyAdapter<>(getApplicationContext(),imagenes);
         numImgs=(EditText)findViewById(R.id.numeroImgs);
@@ -40,6 +49,21 @@ public class MainActivity extends AppCompatActivity {
         grid.setAdapter(gridAdapter);
         addImg=(Button)findViewById(R.id.añadirImgs);
         continuar=(Button)findViewById(R.id.btnContinuar);
+        continuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(Integer.parseInt(numImgs.getText().toString())!=imagenes.size())
+                {
+                    alerta.show();
+                }
+                else
+                {
+                    i=new Intent(getApplicationContext(),Viewpager.class);
+                    startActivity(i);
+                }
+            }
+        });
         addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,7 +1,10 @@
 package com.example.pjarana.ej5bol7;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button hacerFoto;
     ImageView imagen;
     Intent i;
+    ArrayList<Bitmap>imagenesBitmap;
     ArrayList<ImageView>imagenes;
     MyAdapter<ImageView>gridAdapter;
     ImageView[]array;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Error");
         builder.setMessage("El número de imágenes introducidas no corresponde con el número de imágenes que quiere en la galería");
         alerta=builder.create();
+        imagenesBitmap=new ArrayList<Bitmap>();
         imagenes=new ArrayList<ImageView>();
         gridAdapter=new MyAdapter<>(getApplicationContext(),imagenes);
         numImgs=(EditText)findViewById(R.id.numeroImgs);
@@ -53,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(Integer.parseInt(numImgs.getText().toString())!=imagenes.size())
+                if((Integer.parseInt(numImgs.getText().toString())!=imagenes.size())||numImgs.getText().toString().equals(""))
                 {
                     alerta.show();
                 }
                 else
                 {
                     i=new Intent(getApplicationContext(),Viewpager.class);
+                    //i.putParcelableArrayListExtra("imagenes",imagenes);
+                    i.putParcelableArrayListExtra("imagenes",imagenesBitmap);
                     startActivity(i);
                 }
             }
@@ -90,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImg=data.getData();
             imagen=new ImageView(getApplicationContext());
             imagen.setImageURI(selectedImg);
+            BitmapDrawable drawable = (BitmapDrawable) imagen.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            imagenesBitmap.add(bitmap);
             imagenes.add(imagen);
             gridAdapter.notifyDataSetChanged();
         }
@@ -97,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imagenesBitmap.add(imageBitmap);
             imagen=new ImageView(getApplicationContext());
             imagen.setImageBitmap(imageBitmap);
             imagenes.add(imagen);

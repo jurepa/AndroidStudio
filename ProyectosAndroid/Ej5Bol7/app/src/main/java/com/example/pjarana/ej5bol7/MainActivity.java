@@ -1,5 +1,6 @@
 package com.example.pjarana.ej5bol7;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,7 +19,11 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Bitmap>imagenesBitmap;
     ArrayList<ImageView>imagenes;
     MyAdapter<ImageView>gridAdapter;
-    ImageView[]array;
+    ArrayList<Uri>URIimagenes;
     AlertDialog.Builder builder;
     AlertDialog alerta;
     final int PICK_IMAGE=1;
     final int CAMERA_IMAGE=2;
+    File cameraFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Error");
         builder.setMessage("El número de imágenes introducidas no corresponde con el número de imágenes que quiere en la galería");
         alerta=builder.create();
-        imagenesBitmap=new ArrayList<Bitmap>();
+        //imagenesBitmap=new ArrayList<Bitmap>();
+        URIimagenes=new ArrayList<Uri>();
         imagenes=new ArrayList<ImageView>();
         gridAdapter=new MyAdapter<>(getApplicationContext(),imagenes);
         numImgs=(EditText)findViewById(R.id.numeroImgs);
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if((Integer.parseInt(numImgs.getText().toString())!=imagenes.size())||numImgs.getText().toString().equals(""))
+                if((Integer.parseInt(numImgs.getText().toString())!=imagenes.size())||numImgs.getText().toString()=="")
                 {
                     alerta.show();
                 }
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     i=new Intent(getApplicationContext(),Viewpager.class);
                     //i.putParcelableArrayListExtra("imagenes",imagenes);
-                    i.putParcelableArrayListExtra("imagenes",imagenesBitmap);
+                    i.putParcelableArrayListExtra("imagenes",URIimagenes);
                     startActivity(i);
                 }
             }
@@ -84,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                /*cameraFile = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                i.putExtra(MediaStore.ACTION_IMAGE_CAPTURE, Uri.fromFile(cameraFile));*/
                 startActivityForResult(i, CAMERA_IMAGE);
             }
         });
@@ -97,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImg=data.getData();
             imagen=new ImageView(getApplicationContext());
             imagen.setImageURI(selectedImg);
-            BitmapDrawable drawable = (BitmapDrawable) imagen.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            imagenesBitmap.add(bitmap);
+            URIimagenes.add(selectedImg);
             imagenes.add(imagen);
             gridAdapter.notifyDataSetChanged();
         }
@@ -107,11 +114,42 @@ public class MainActivity extends AppCompatActivity {
         {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imagenesBitmap.add(imageBitmap);
+            Uri uri=Uri.fromFile(cameraFile);
+            URIimagenes.add(uri);
             imagen=new ImageView(getApplicationContext());
             imagen.setImageBitmap(imageBitmap);
             imagenes.add(imagen);
             gridAdapter.notifyDataSetChanged();
         }
     }
+
+
+    /*public Uri bitmapToUriConverter(Bitmap mBitmap) {
+        Uri uri = null;
+        try {
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            // Calculate inSampleSize
+            // Decode bitmap with inSampleSize set
+            options.inJustDecodeBounds = false;
+            Bitmap newBitmap = Bitmap.createScaledBitmap(mBitmap, 200, 200,
+                    true);
+            File file = new File(getApplication().getFilesDir(), "Image"
+                    + new Random().nextInt() + ".jpeg");
+            FileOutputStream out = getApplication().openFileOutput(file.getName(),
+                    Context.MODE_WORLD_READABLE);
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            //get absolute path
+            String realPath = file.getAbsolutePath();
+            File f = new File(realPath);
+            uri = Uri.fromFile(f);
+
+        } catch (Exception e) {
+
+        }
+        return uri;
+    }*/
+
+
 }

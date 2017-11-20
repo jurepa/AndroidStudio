@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_crea_jugador"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.iesnervion.dleal.examenprimeraevaluacion.CreaJugador"
+    tools:showIn="@layout/activity_crea_jugador">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Introduce el nombre"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/editnombre" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/silueta"
+        android:layout_below="@+id/editnombre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        android:id="@+id/imagen" />
+
+    <RadioButton
+        android:text="Base"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:id="@+id/base"
+        android:layout_below="@+id/imagen"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:text="Alero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alero"
+        android:layout_alignBaseline="@+id/escolta"
+        android:layout_alignBottom="@+id/escolta"
+        android:layout_toEndOf="@+id/escolta" />
+
+    <RadioButton
+        android:text="Escolta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/escolta"
+        android:layout_alignBaseline="@+id/base"
+        android:layout_alignBottom="@+id/base"
+        android:layout_toEndOf="@+id/base" />
+
+    <RadioButton
+        android:text="AlaPivot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/alero"
+        android:layout_toEndOf="@+id/alero"
+        android:id="@+id/alapivot" />
+
+    <RadioButton
+        android:text="pivot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pivot"
+        android:layout_alignTop="@+id/alapivot"
+        android:layout_toEndOf="@+id/alapivot" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/altura"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:id="@+id/pesospiner" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:id="@+id/altura"
+        android:layout_below="@+id/txtaltura"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Altura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtaltura"
+        android:layout_below="@+id/alero"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="Peso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtpeso"
+        android:layout_below="@+id/altura"
+        android:layout_alignEnd="@+id/txtaltura"
+        android:layout_marginTop="17dp" />
+
+    <Button
+        android:text="Eliminar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:enabled="false"
+        android:visibility="invisible"
+        android:id="@+id/btneliminar" />
+
+
+</RelativeLayout>

@@ -105,7 +105,7 @@ public class MainActivity extends ListActivity implements View.OnClickListener,A
         return super.onOptionsItemSelected(item);
     }
 
-  /*  @Override
+  /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         //Recibimos el resultado
@@ -115,11 +115,8 @@ public class MainActivity extends ListActivity implements View.OnClickListener,A
         {
 
             Bundle bundle= data.getExtras();
-
-
             Jugador j =bundle.getParcelable("Jugador");
-
-            this.lista.setJugadores(j);
+            ((ListadoJugadores) getApplication()).setJugadores(j);
         }
     }*/
 

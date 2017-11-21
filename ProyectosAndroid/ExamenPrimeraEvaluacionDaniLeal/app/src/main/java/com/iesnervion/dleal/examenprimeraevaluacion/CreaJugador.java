@@ -185,10 +185,8 @@ public class CreaJugador extends AppCompatActivity implements View.OnClickListen
                     Intent i = new Intent(this,MainActivity.class);
                     Jugador j= new Jugador(nombre.getText().toString(),posicion,img,propaltura,proppeso);
                     i.putExtra("Jugador",j);
-
-
                     startActivity(i);
-
+                    finish();//!!!!!!!!!!!!!!!!!!
                 }
                 break;
 

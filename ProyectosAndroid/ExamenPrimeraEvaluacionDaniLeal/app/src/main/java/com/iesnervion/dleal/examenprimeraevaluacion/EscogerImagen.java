@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.iesnervion.dleal.examenprimeraevaluacion.datos.ListadoJugadores;
 import com.iesnervion.dleal.examenprimeraevaluacion.model.Imagen;
+import com.iesnervion.dleal.examenprimeraevaluacion.model.Jugador;
 
 import java.util.List;
 import java.util.Vector;
@@ -28,7 +29,6 @@ public class EscogerImagen extends ListActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_escoger_imagen);
-
 
 
         imagenes= ((ListadoJugadores) getApplication()).getImagenes();

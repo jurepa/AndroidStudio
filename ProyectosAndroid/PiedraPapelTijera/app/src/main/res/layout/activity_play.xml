@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pjarana.piedrapapeltijera.PlayActivity">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Contrincante"
+    android:textColor="@android:color/black"
+    android:layout_centerHorizontal="true"
+    android:textSize="18dp"
+    android:id="@+id/nombreContrincante"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imagenContrincante"
+        android:layout_below="@+id/nombreContrincante"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Tú"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"
+        android:id="@+id/nombreJugador"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imagenContrincante"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="50dp"
+        android:id="@+id/descripcionJugada"
+        android:layout_above="@id/papel"
+        android:text=""
+        android:textColor="@android:color/black"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/piedra"
+        android:src="@drawable/rsz_piedra"
+        android:layout_above="@id/nombreJugador"
+        android:layout_marginBottom="50dp"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/papel"
+        android:src="@drawable/rsz_papel"
+        android:layout_above="@id/nombreJugador"
+        android:layout_toRightOf="@id/piedra"
+        android:layout_toLeftOf="@id/tijeras"
+        android:layout_marginBottom="50dp"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tijeras"
+        android:src="@drawable/rsz_tijeras"
+        android:layout_above="@id/nombreJugador"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentRight="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Échate otra"
+        android:id="@+id/jugarOtraVez"
+        android:layout_toRightOf="@id/descripcionJugada"
+        android:layout_below="@id/imagenContrincante"
+        android:visibility="invisible"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/salir"
+        android:text="Salir"
+        android:layout_below="@id/jugarOtraVez"
+        android:layout_alignLeft="@id/descripcionJugada"
+        android:visibility="invisible"
+        />
+</RelativeLayout>

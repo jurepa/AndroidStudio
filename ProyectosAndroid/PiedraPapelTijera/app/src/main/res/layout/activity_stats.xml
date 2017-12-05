@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.pjarana.piedrapapeltijera.StatsActivity">
-
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="partidas_ganadas: "
+        android:id="@+id/partidasGanadas"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="20dp"/>
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/partidasEmpatadas"
+        android:text="partidas_empatas:"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/partidasPerdidas"
+        android:text="partidas_perdidas"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="racha_ganadas: "
+        android:id="@+id/rachaGanadas"
+        android:textColor="@android:color/black"/>
+</LinearLayout>

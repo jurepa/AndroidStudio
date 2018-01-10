@@ -17,12 +17,16 @@ public interface MyDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     public void insertPersonas(Persona... p);
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    public void insertMascotas(Mascota...m);
     @Update(onConflict = OnConflictStrategy.ABORT)
     public void updatePersonas(Persona...p);
     @Delete
     public void deletePersonas(Persona...p);
     @Query("Select * from Personas")
     public List<Persona> getPersonas();
+    @Query("Select*from Personas where id=:id")
+    public Persona getPersona(int id);
     @Query("Select * from Mascotas Where idPersona=:idPersona")
     public List<Mascota> getMascotasFromPersona(int idPersona);
 

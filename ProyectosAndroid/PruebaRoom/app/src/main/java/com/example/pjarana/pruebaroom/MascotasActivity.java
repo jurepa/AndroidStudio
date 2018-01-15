@@ -21,6 +21,5 @@ public class MascotasActivity extends AppCompatActivity {
         listaMascotas=new ArrayList<Mascota>(Database.getDatabase(this).getUsuariosDao().getMascotasFromPersona(id));
         lista=(ListView)findViewById(R.id.listaMascotas);
         lista.setAdapter(new <Mascota> MyAdapterMascotas(this,R.layout.row_style,listaMascotas));
-
     }
 }

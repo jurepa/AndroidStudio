@@ -14,17 +14,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LiveDataTimerViewModel chronoVM= ViewModelProviders.of(this).get(LiveDataTimerViewModel.class);
+        ChronometerViewModel chronoVM= ViewModelProviders.of(this).get(ChronometerViewModel.class);
         chrono=(Chronometer)findViewById(R.id.cronometro);
+        tiempoComienzo= SystemClock.elapsedRealtime();
         if(chronoVM.getTiempo()==null)
         {
-            tiempoComienzo= SystemClock.elapsedRealtime();
             chronoVM.setTiempo(tiempoComienzo);
             chrono.setBase(tiempoComienzo);
         }
         else
         {
-            chronoVM.setTiempo(chronoVM.getTiempo());
+            chrono.setBase(chronoVM.getTiempo());
         }
         chrono.start();
     }

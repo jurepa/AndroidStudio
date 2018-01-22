@@ -1,6 +1,7 @@
 package com.example.pjarana.pruebaroom;
 
 import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -9,6 +10,7 @@ import android.arch.lifecycle.ViewModel;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,16 @@ import java.util.List;
  * Created by pjarana on 17/01/18.
  */
 
-public class ViewModelPersonas extends ViewModel {
+public class ViewModelPersonas extends AndroidViewModel {
 
-    private final MutableLiveData<List<Persona>> personas=new MutableLiveData<List<Persona>>();
+    private final MutableLiveData<List<Persona>> personas;
+    private UsuarioRepository repositorio;
 
-    public ViewModelPersonas()
+    public ViewModelPersonas(Application app)
     {
+        super(app);
+        repositorio=new UsuarioRepository(app);
+        personas=repositorio.getListaUsuarios();
     }
 
     public LiveData<List<Persona>> getPersonas()
@@ -39,12 +45,10 @@ public class ViewModelPersonas extends ViewModel {
                 List<Persona>lista=Database.getDatabase(app.getApplicationContext()).getUsuariosDao().getPersonas();
                 return lista;
             }
-
             @Override
             protected void onPostExecute(List<Persona> lista) {
                 ViewModelPersonas.this.personas.setValue(lista);
             }
         }.execute();
     }
-
 }

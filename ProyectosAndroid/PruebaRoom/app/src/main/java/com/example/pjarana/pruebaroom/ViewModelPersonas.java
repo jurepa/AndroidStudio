@@ -46,7 +46,7 @@ public class ViewModelPersonas extends AndroidViewModel {
                 return lista;
             }
             @Override
-            protected void onPostExecute(List<Persona> lista) {
+            protected void onPostExecute(List<Persona> lista) { //Este método recibe lo que devuelve el doInBackground
                 ViewModelPersonas.this.personas.setValue(lista);
             }
         }.execute();

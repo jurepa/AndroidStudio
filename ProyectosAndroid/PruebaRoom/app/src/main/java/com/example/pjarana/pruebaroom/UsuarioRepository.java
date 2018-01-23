@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by pjarana on 22/01/18.
@@ -21,25 +22,43 @@ public class UsuarioRepository {
         Database db=Database.getDatabase(app.getApplicationContext());
         database=db.getUsuariosDao();
         listaUsuarios=new MutableLiveData<>();
-        listaUsuarios.setValue(database.getPersonas());
+        new getAllPersonasAsyncTask(database).execute();
+
     }
 
     public MutableLiveData<List<Persona>> getListaUsuarios() {
         return listaUsuarios;
     }
+ /*   public List<Persona> getAllPersonas()
+    {
+        List<Persona>lista=null;
+        try {
 
-    private static class insertAsyncTask extends AsyncTask<Void, Void, List<Persona>> {
+             lista=new getAllPersonasAsyncTask(database).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }*/
+
+    private class getAllPersonasAsyncTask extends AsyncTask<Void, Void, List<Persona>> {
 
         private MyDao miDao;
 
-        public insertAsyncTask(MyDao dao) {
+        public getAllPersonasAsyncTask(MyDao dao) {
             miDao = dao;
         }
 
         @Override
         protected List<Persona> doInBackground(Void... voids) {
-            return miDao.getPersonas();
-        }
 
+            return  miDao.getPersonas();
+        }
+        @Override
+        protected void onPostExecute(List<Persona> lista) { //Este método recibe lo que devuelve el doInBackground
+            UsuarioRepository.this.listaUsuarios.setValue(lista);
+        }
     }
 }

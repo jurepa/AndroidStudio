@@ -28,6 +28,7 @@ public class MascotasActivity extends AppCompatActivity {
         Intent i=getIntent();
         id=i.getIntExtra("idPersona",0);
         vm= ViewModelProviders.of(this).get(ViewModelMascotas.class);
+        //vm.cargarListaMascotasDeUsuario(getApplication(),id);
         vm.getMascotas().observe(this, new Observer<List<Mascota>>() {
             @Override
             public void onChanged(@Nullable List<Mascota> mascotas) {

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btn=findViewById(R.id.verUsuarios);
         lista=findViewById(R.id.lista);
         vm= ViewModelProviders.of(this).get(ViewModelPersonas.class);
-        vm.getPersonas().observe(this, new Observer() {
+        vm.getPersonas().observe(this, new Observer() { //Entra siempre cuando iniciamos la app porque al instanciar el viewmodel, cargamos la lista de personas
             @Override
             public void onChanged(@Nullable Object o) { //Entra cuando cambia una confi del tlf o el valor de alguna de las propiedades del vm
                 //vm.cargarLista(getApplication()); No hace falta cargar la lista otra vez porq el vm la mantiene

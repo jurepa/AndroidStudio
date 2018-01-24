@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent activarBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(activarBluetooth, REQUEST_ENABLE_BT);
                     }
-                    else
+                    /*else
                     {
                         bluetoothAdapter.disable();
                         Toast.makeText(getApplicationContext(),"Se ha desactivado el bluetooth",Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 }
             }
         });

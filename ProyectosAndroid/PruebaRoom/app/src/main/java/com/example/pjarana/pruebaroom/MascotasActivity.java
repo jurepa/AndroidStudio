@@ -29,16 +29,17 @@ public class MascotasActivity extends AppCompatActivity {
         id=i.getIntExtra("idPersona",0);
         vm= ViewModelProviders.of(this).get(ViewModelMascotas.class);
         //vm.cargarListaMascotasDeUsuario(getApplication(),id);
-        vm.getMascotas().observe(this, new Observer<List<Mascota>>() {
-            @Override
-            public void onChanged(@Nullable List<Mascota> mascotas) {
-                lista.setAdapter(new <Mascota> MyAdapterMascotas(getApplicationContext(),R.layout.row_style,new ArrayList<Mascota>(vm.getMascotas().getValue())));
-            }
-        });
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 vm.cargarListaMascotasDeUsuario(getApplication(),id);
+                vm.getMascotas().observe(MascotasActivity.this, new Observer<List<Mascota>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Mascota> mascotas) {
+                        lista.setAdapter(new <Mascota> MyAdapterMascotas(getApplicationContext(),R.layout.row_style,new ArrayList<Mascota>(vm.getMascotas().getValue())));
+                    }
+                });
             }
         });
     }

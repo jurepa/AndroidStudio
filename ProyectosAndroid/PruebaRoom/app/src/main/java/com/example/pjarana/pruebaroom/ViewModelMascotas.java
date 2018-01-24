@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ViewModelMascotas extends AndroidViewModel {
 
-    private LiveData<List<Mascota>> mascotas=null;
+    private LiveData<List<Mascota>> mascotas;
     private MascotasRepository repositorio;
 
     public ViewModelMascotas(Application app)

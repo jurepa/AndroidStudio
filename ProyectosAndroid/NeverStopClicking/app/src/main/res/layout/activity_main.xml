@@ -49,7 +49,7 @@
         android:id="@+id/btnSalir"
         android:layout_below="@id/btnOpciones"
         android:layout_alignLeft="@id/btnJugar"
-        android:text="Bluetooth"
+        android:text="Salir"
         android:layout_marginTop="30dp"
         android:textColor="#FFFFFF"
         android:textSize="30sp"

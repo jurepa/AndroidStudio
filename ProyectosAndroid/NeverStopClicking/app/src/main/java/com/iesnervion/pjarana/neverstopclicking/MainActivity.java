@@ -16,35 +16,28 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSalir;
     Button btnJugar;
-    final int REQUEST_ENABLE_BT=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MediaPlayer musicTetris=MediaPlayer.create(this,R.raw.tetris);
         musicTetris.start();
+        musicTetris.setLooping(true);
         btnSalir=findViewById(R.id.btnSalir);
         btnJugar=findViewById(R.id.btnJugar);
         btnJugar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (bluetoothAdapter == null) {
-                    Toast.makeText(getApplicationContext(),"Tu móvil no soporta bluetooth",Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    if (!bluetoothAdapter.isEnabled())
-                    {
-                        Intent activarBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivityForResult(activarBluetooth, REQUEST_ENABLE_BT);
-                    }
+            public void onClick(View v)
+            {
+
+                    Intent i=new Intent(getApplicationContext(),ChooseTypeGame.class);
+                    startActivity(i);
                     /*else
                     {
                         bluetoothAdapter.disable();
                         Toast.makeText(getApplicationContext(),"Se ha desactivado el bluetooth",Toast.LENGTH_LONG).show();
                     }*/
-                }
             }
         });
         btnSalir.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +64,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == REQUEST_ENABLE_BT)
-        {
-            if (resultCode == RESULT_OK)
-            {
-                Toast.makeText(getApplicationContext(),"Se ha activado el bluetooth",Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"El bluetooth no se ha activado",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+
 
 }

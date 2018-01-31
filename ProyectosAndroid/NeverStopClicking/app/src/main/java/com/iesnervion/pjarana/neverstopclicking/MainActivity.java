@@ -1,8 +1,6 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-                    Intent i=new Intent(getApplicationContext(),ChooseTypeGame.class);
+                    Intent i=new Intent(getApplicationContext(),ChooseGameType.class);
                     startActivity(i);
                     /*else
                     {

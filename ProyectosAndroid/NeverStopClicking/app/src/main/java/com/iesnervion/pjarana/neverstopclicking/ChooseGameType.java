@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class ChooseTypeGame extends AppCompatActivity {
+public class ChooseGameType extends AppCompatActivity {
 
     Button btnLocal;
     Button btnUnirse;
@@ -46,7 +46,14 @@ public class ChooseTypeGame extends AppCompatActivity {
         btnLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(getApplicationContext(),LocalGame.class);
+                Intent i= new Intent(getApplicationContext(),CreateGame.class);
+                startActivity(i);
+            }
+        });
+        btnUnirse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(getApplicationContext(),JoinGame.class);
                 startActivity(i);
             }
         });

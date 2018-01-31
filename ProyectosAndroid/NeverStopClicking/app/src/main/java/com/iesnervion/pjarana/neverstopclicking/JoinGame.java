@@ -1,6 +1,5 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -10,22 +9,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
-public class LocalGame extends AppCompatActivity {
+public class JoinGame extends AppCompatActivity {
 
     ListView lista;
     BluetoothAdapter bluetoothAdapter;
@@ -35,7 +30,7 @@ public class LocalGame extends AppCompatActivity {
     ProgressBar progressBar;
     BluetoothSocket socket;
     BluetoothDevice dispositivoAConectar;
-    private static final UUID identifier=UUID.fromString("cda489c4-328c-45d5-80bf-240ff74f4277");
+    static final UUID IDENTIFIER=UUID.fromString("cda489c4-328c-45d5-80bf-240ff74f4277");
     private final int MYBTISDISCOVERABLE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +45,12 @@ public class LocalGame extends AppCompatActivity {
         adapter.addAll(nombresDispositivos);
         lista.setAdapter(adapter);
         bluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
-        /*if(bluetoothAdapter.getScanMode()!=BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //Si el móvil no es visible, hacemos una petición al usuario para ponerlo visible
+        if(bluetoothAdapter.getScanMode()!=BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //Si el móvil no es visible, hacemos una petición al usuario para ponerlo visible
         {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 30);
+            intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivityForResult(intent, MYBTISDISCOVERABLE);
-        }*/
+        }
         if(bluetoothAdapter.isDiscovering()) //Si esta escaneando dispositivos, cancelamos
         {
             bluetoothAdapter.cancelDiscovery();
@@ -81,8 +76,8 @@ public class LocalGame extends AppCompatActivity {
             if(intent.getAction()==BluetoothDevice.ACTION_FOUND) //Si ha encontrado un dispositivo, lo añadimos a la lista
             {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE); //Así obtenemos el Bluetooth device
-                LocalGame.this.adapter.add(device.getName());
-                LocalGame.this.listaDispositivos.add(device);
+                JoinGame.this.adapter.add(device.getName());
+                JoinGame.this.listaDispositivos.add(device);
                 adapter.notifyDataSetChanged();
             }
             if(intent.getAction()==BluetoothAdapter.ACTION_DISCOVERY_FINISHED) //Si ha terminado de escanear quitamos la progressbar
@@ -93,6 +88,7 @@ public class LocalGame extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
                     {
+                        ConnectThread conexion;
                         boolean encontrado=false;
                         String nombreDispositivo= adapter.getItem(i);
                         for (int j=0;j<listaDispositivos.size()||!encontrado;j++) //Buscamos el dispositivo con el nombre seleccionado
@@ -103,7 +99,10 @@ public class LocalGame extends AppCompatActivity {
                                 encontrado=true;
                             }
                         }
-                        new Thread() //Iniciamos una tarea en segundo plano para no bloquear la UI
+                        conexion=new ConnectThread(dispositivoAConectar,bluetoothAdapter);
+                        conexion.run();
+
+                        /*new Thread() //Iniciamos una tarea en segundo plano para no bloquear la UI
                         {
                             public void run()
                             {
@@ -114,7 +113,7 @@ public class LocalGame extends AppCompatActivity {
                                 }catch(IOException e)
                                 {
                                     fallo=true;
-                                    Toast.makeText(getApplicationContext(),"La creación del Socket ha fallado(Línea 100, LocalGame)",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),"La creación del Socket ha fallado(Línea 100, JoinGame)",Toast.LENGTH_LONG).show();
                                 }
                                 try
                                 {
@@ -135,7 +134,7 @@ public class LocalGame extends AppCompatActivity {
                                     ConnectedThread connectedThread=new ConnectedThread(socket);
                                 }
                             }
-                        }.start();
+                        }.start();*/
                     }
                 });
             }
@@ -156,7 +155,7 @@ public class LocalGame extends AppCompatActivity {
         }
     }
 
-    private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException { //Crea el socket
+    /*private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException { //Crea el socket
         BluetoothSocket socketCreado;
         try {
 
@@ -166,5 +165,5 @@ public class LocalGame extends AppCompatActivity {
             e.printStackTrace();
         }
         return  device.createRfcommSocketToServiceRecord(identifier);
-    }
+    }*/
 }

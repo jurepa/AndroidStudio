@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChooseTypeGame" />
-        <activity android:name=".LocalGame"></activity>
+        <activity android:name=".ChooseGameType" />
+        <activity android:name=".JoinGame" />
+        <activity android:name=".CreateGame"></activity>
     </application>
 
 </manifest>

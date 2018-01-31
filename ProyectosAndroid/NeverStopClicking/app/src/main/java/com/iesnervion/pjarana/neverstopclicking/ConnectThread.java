@@ -1,8 +1,10 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
+import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -27,7 +29,11 @@ public class ConnectThread extends Thread {
         }
     }
 
-    public void run()
+    public BluetoothSocket getSocket() {
+        return socket;
+    }
+
+    public void run(Application app)
     {
         this.mBluetoothAdapter.cancelDiscovery();
 
@@ -43,8 +49,8 @@ public class ConnectThread extends Thread {
                 e1.printStackTrace();
             }
         }
-        //Aquí hacemos los que sea, manageConnection
 
+        //Aquí hacemos los que sea, manageConnection
     }
 
 }

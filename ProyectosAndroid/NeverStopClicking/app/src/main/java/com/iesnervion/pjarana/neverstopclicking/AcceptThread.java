@@ -31,7 +31,7 @@ public class AcceptThread extends Thread {
     //Procedemos a esperar conexiones
     public void run()
     {
-        BluetoothSocket socket=null; //Este será el dispositivo que se nos conecte
+        BluetoothSocket socket=null; //Este será el punto de conexión entre el cliente y nosotros
 
         while(socket==null) { //Mientras no reciba conexiones
             try

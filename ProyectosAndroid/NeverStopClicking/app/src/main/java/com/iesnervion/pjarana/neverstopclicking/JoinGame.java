@@ -100,7 +100,7 @@ public class JoinGame extends AppCompatActivity {
                             }
                         }
                         conexion=new ConnectThread(dispositivoAConectar,bluetoothAdapter);
-                        conexion.run();
+                        conexion.run(getApplication());
 
                         /*new Thread() //Iniciamos una tarea en segundo plano para no bloquear la UI
                         {

@@ -65,4 +65,8 @@ public class AcceptThread extends Thread {
             e.printStackTrace();
         }
     }
+
+    public BluetoothServerSocket getServerSocket() {
+        return serverSocket;
+    }
 }

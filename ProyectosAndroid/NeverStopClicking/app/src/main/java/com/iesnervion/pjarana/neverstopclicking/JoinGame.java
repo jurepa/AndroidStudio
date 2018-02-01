@@ -99,42 +99,10 @@ public class JoinGame extends AppCompatActivity {
                                 encontrado=true;
                             }
                         }
-                        conexion=new ConnectThread(dispositivoAConectar,bluetoothAdapter);
-                        conexion.run(getApplication());
 
-                        /*new Thread() //Iniciamos una tarea en segundo plano para no bloquear la UI
-                        {
-                            public void run()
-                            {
-                                boolean fallo=false;
-                                try
-                                {
-                                    socket=createBluetoothSocket(dispositivoAConectar); //Creamos el socket, que va a ser el dispositivo a conectarnos
-                                }catch(IOException e)
-                                {
-                                    fallo=true;
-                                    Toast.makeText(getApplicationContext(),"La creación del Socket ha fallado(Línea 100, JoinGame)",Toast.LENGTH_LONG).show();
-                                }
-                                try
-                                {
-                                    socket.connect(); //Establecemos la conexion
-                                }catch(IOException e)
-                                {
-                                    fallo=true;
-                                }finally //Si hay problemas, la cerramos
-                                {
-                                    try {
-                                        socket.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                if(!fallo)
-                                {
-                                    ConnectedThread connectedThread=new ConnectedThread(socket);
-                                }
-                            }
-                        }.start();*/
+                        Intent intent=new Intent(getApplicationContext(),GameActivity.class);
+                        intent.putExtra("dispositivoAConectar",dispositivoAConectar);
+                        startActivity(intent);
                     }
                 });
             }
@@ -155,15 +123,4 @@ public class JoinGame extends AppCompatActivity {
         }
     }
 
-    /*private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException { //Crea el socket
-        BluetoothSocket socketCreado;
-        try {
-
-            final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);
-            return (BluetoothSocket) m.invoke(device, identifier);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  device.createRfcommSocketToServiceRecord(identifier);
-    }*/
 }

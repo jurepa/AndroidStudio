@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".ChooseGameType" />
         <activity android:name=".JoinGame" />
-        <activity android:name=".CreateGame"></activity>
+        <activity android:name=".CreateGame" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>

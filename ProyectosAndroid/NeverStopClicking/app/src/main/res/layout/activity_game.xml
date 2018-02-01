@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@drawable/background2"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iesnervion.pjarana.neverstopclicking.GameActivity">
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:format="Tiempo restante - %s"
+        android:background="@color/colorPrimaryDark"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonClicks"
+        android:layout_below="@id/chronometer"
+        android:layout_centerHorizontal="true"
+        android:text="Click lo mas rapido que puedas!"/>
+</RelativeLayout>

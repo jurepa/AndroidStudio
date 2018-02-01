@@ -21,6 +21,7 @@ public class CreateGame extends AppCompatActivity {
         }
         AcceptThread aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
         aceptarConexiones.run();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

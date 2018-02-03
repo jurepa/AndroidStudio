@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NeverStopClicking.iml" filepath="$PROJECT_DIR$/NeverStopClicking.iml" />
+      <module fileurl="file://C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\NeverStopClicking\NeverStopClicking.iml" filepath="C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\NeverStopClicking\NeverStopClicking.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\NeverStopClicking\app\app.iml" filepath="C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\NeverStopClicking\app\app.iml" />
     </modules>
   </component>
 </project>

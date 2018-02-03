@@ -33,7 +33,7 @@ public class ConnectThread extends Thread {
         return socket;
     }
 
-    public void run(Application app)
+    public void run()
     {
         this.mBluetoothAdapter.cancelDiscovery();
 

@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothSocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by Usuario on 30/01/2018.
@@ -25,6 +27,10 @@ public class ConnectedThread  extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void run()
+    {
 
     }
 }

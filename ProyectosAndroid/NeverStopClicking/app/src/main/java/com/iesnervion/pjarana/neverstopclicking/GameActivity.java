@@ -1,23 +1,30 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
 
 import java.nio.ByteBuffer;
+
+import xyz.hanks.library.bang.SmallBangView;
 
 public class GameActivity extends AppCompatActivity {
 
     ConnectedThread gestoraConexion;
     ConnectThread conexion;
     BluetoothDevice dispositivoAConectar;
+    TextView txtClicks;
     int clicks;
     boolean isChronoRunning;
-    Button buttonClick;
+    SmallBangView buttonClick;
     Chronometer chrono;
     byte[]bytes;
     @Override
@@ -26,38 +33,47 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         clicks=0;
         isChronoRunning=false;
+        dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
+        txtClicks=(TextView)findViewById(R.id.txtClicks);
         chrono=(Chronometer)findViewById(R.id.chronometer);
-        chrono.setBase(5);
-        chrono.setCountDown(true);
         chrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if(chrono.getText()=="00:00")
+                if(chrono.getText().toString().equalsIgnoreCase("00:05"))
                 {
                     chrono.stop();
                     buttonClick.setClickable(false);
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
+
+                    gestoraConexion=new ConnectedThread(conexion.getSocket());
                 }
             }
         });
-        buttonClick=(Button)findViewById(R.id.buttonClicks);
+        buttonClick=findViewById(R.id.buttonClicks);
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isChronoRunning)
-                {
+                if (!isChronoRunning) {
+                    chrono.setBase(SystemClock.elapsedRealtime());
                     chrono.start();
-                    isChronoRunning=true;
+                    isChronoRunning = true;
+
                 }
+
+                buttonClick.setSelected(true);
+                buttonClick.likeAnimation(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        buttonClick.setSelected(false);
+                    }
+                });
                 clicks++;
+                txtClicks.setText("Clicks: " + String.valueOf(clicks));
 
             }
         });
-        dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
         conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
         conexion.run();
-        //bytes= ByteBuffer.allocate(4).putInt(clicks).array();
-        gestoraConexion=new ConnectedThread(conexion.getSocket());
-
     }
 }

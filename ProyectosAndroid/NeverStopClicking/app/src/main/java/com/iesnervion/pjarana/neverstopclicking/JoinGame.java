@@ -121,11 +121,11 @@ public class JoinGame extends AppCompatActivity {
         {
             Toast.makeText(this,"Tu teléfono ahora es visible",Toast.LENGTH_LONG).show();
         }
-        else
+        /*else
         {
             finish();
             Toast.makeText(this,"No puedes unirte a una partida si tu teléfono no es visible",Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 }

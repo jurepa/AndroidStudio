@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
 
                 fragment.add(R.id.layoutMainActivity,fragment1);
                 fragment.commit();
+                btnFragment.setClickable(false);
             }
         });
 

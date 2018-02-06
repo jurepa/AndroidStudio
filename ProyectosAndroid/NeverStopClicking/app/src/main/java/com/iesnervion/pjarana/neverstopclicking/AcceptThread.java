@@ -3,6 +3,7 @@ package com.iesnervion.pjarana.neverstopclicking;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -15,6 +16,7 @@ public class AcceptThread extends Thread {
 
     private static final String APPNAME="NEVERSTOPCLICKING";
     private BluetoothServerSocket serverSocket;
+    private BluetoothSocket btSocket;
 
     public AcceptThread(BluetoothAdapter mBluetoothAdapter)
     {
@@ -31,18 +33,18 @@ public class AcceptThread extends Thread {
     //Procedemos a esperar conexiones
     public void run()
     {
-        BluetoothSocket socket=null; //Este será el punto de conexión entre el cliente y nosotros
+        this.btSocket=null; //Este será el punto de conexión entre el cliente y nosotros
 
-        while(socket==null) { //Mientras no reciba conexiones
+        while(this.btSocket==null) { //Mientras no reciba conexiones
             try
             {
-                socket = serverSocket.accept(); //Esperamos a que un dispositivo se nos conecte
+                this.btSocket = serverSocket.accept(); //Esperamos a que un dispositivo se nos conecte
                                                 //accept(); lo que hace es permitir conexiones entrantes
             } catch (IOException e)
             {
                 e.printStackTrace();
             }
-            if(socket!=null)
+            if(this.btSocket!=null)
             {
                 try
                 {
@@ -68,5 +70,9 @@ public class AcceptThread extends Thread {
 
     public BluetoothServerSocket getServerSocket() {
         return serverSocket;
+    }
+
+    public BluetoothSocket getBtSocket() {
+        return btSocket;
     }
 }

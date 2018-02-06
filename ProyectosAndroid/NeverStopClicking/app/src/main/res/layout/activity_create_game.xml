@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background2"
     tools:context="com.iesnervion.pjarana.neverstopclicking.CreateGame">
 
-</android.support.constraint.ConstraintLayout>
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:background="@color/colorPrimaryDark"
+        />
+    <xyz.hanks.library.bang.SmallBangView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/buttonClicks"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/rsz_click"
+            android:padding="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:shadowColor="#000000"
+            android:shadowDx="16"
+            android:shadowDy="-7"
+            android:shadowRadius="8"
+            android:text="Click lo mas rapido que puedas!"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+    </xyz.hanks.library.bang.SmallBangView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtClicks"
+        android:layout_below="@id/buttonClicks"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="Clicks: "
+        android:textSize="30dp"
+        />
+</RelativeLayout>

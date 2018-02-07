@@ -3,6 +3,7 @@ package com.iesnervion.pjarana.neverstopclicking;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -31,7 +31,7 @@ public class CreateGame extends AppCompatActivity {
     private final int MYBTISDISCOVERABLE=1;
     ConnectedThread gestoraConexion;
     BluetoothDevice dispositivoAConectar;
-    ProgressDialog progressDialog;
+    Dialog dialog;
     TextView txtClicks;
     int clicks;
     int clicksAdversario;
@@ -142,11 +142,10 @@ public class CreateGame extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog=new ProgressDialog(getApplicationContext());
-                progressDialog.setTitle("Esperando oponente...");
-                progressDialog.setMessage("Por favor, espere");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                dialog=new Dialog(getApplicationContext());
+                dialog.setTitle("Esperando oponente...");
+                dialog.setCancelable(false);
+                dialog.show();
             }
         });
     }
@@ -155,7 +154,7 @@ public class CreateGame extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
+                dialog.dismiss();
             }
         });
     }

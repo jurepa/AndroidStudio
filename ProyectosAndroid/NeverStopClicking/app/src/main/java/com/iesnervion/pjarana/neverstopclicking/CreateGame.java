@@ -3,8 +3,11 @@ package com.iesnervion.pjarana.neverstopclicking;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -18,6 +21,7 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import xyz.hanks.library.bang.SmallBangView;
@@ -27,6 +31,7 @@ public class CreateGame extends AppCompatActivity {
     private final int MYBTISDISCOVERABLE=1;
     ConnectedThread gestoraConexion;
     BluetoothDevice dispositivoAConectar;
+    ProgressDialog progressDialog;
     TextView txtClicks;
     int clicks;
     int clicksAdversario;
@@ -46,14 +51,15 @@ public class CreateGame extends AppCompatActivity {
             intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
             startActivityForResult(intent, MYBTISDISCOVERABLE);
         }
-        mHandler=new Handler(Looper.getMainLooper())
+        mHandler=new Handler()
         {
             @Override
             public void handleMessage(Message inputMessage)
             {
-                clicksAdversario=ByteBuffer.wrap((byte[]) inputMessage.obj).getInt();
-                if(inputMessage.what==1)
-                {
+                byte[] write = (byte[]) inputMessage.obj;
+                String res = new String(write, 0, inputMessage.arg1);
+                String mensaje = res.trim();
+                clicksAdversario=Integer.parseInt(mensaje);
                     final AlertDialog.Builder builder=new AlertDialog.Builder(CreateGame.this);
                     if(clicksAdversario>clicks)
                     {
@@ -78,7 +84,7 @@ public class CreateGame extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
-                }
+                    ChooseGameType.chooseGameType.finish();
             }
 
         };
@@ -97,8 +103,8 @@ public class CreateGame extends AppCompatActivity {
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
 
                     gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
-                    gestoraConexion.write(ByteBuffer.allocate(1024).putInt(clicks).array());
-                    gestoraConexion.run();
+                    gestoraConexion.write(String.valueOf(clicks).getBytes());
+                    gestoraConexion.start();
 
                 }
             }
@@ -128,8 +134,30 @@ public class CreateGame extends AppCompatActivity {
             }
         });
         aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
-        aceptarConexiones.run();
+        aceptarConexiones.start();
 
+    }
+    public void mostrarProgressDialog()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog=new ProgressDialog(getApplicationContext());
+                progressDialog.setTitle("Esperando oponente...");
+                progressDialog.setMessage("Por favor, espere");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
+        });
+    }
+    public void quitarProgressDialog()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,5 +171,79 @@ public class CreateGame extends AppCompatActivity {
             finish();
             Toast.makeText(this,"No puedes unirte a una partida si tu teléfono no es visible",Toast.LENGTH_LONG).show();
         }*/
+    }
+    /*
+    Clase de conexion como servidor
+     */
+    private class AcceptThread extends Thread {
+
+        private static final String APPNAME="NEVERSTOPCLICKING";
+        private BluetoothServerSocket serverSocket;
+        private BluetoothSocket btSocket;
+
+        public AcceptThread(BluetoothAdapter mBluetoothAdapter)
+        {
+            try
+            {
+                //Crea un socket para que otros dispositivos se puedan conectar a él,
+                //cualquier dispositivo remoto que se conecte será autenticado y la comunicación en el socket será encriptada
+                serverSocket = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(APPNAME, JoinGame.IDENTIFIER);
+            }catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        //Procedemos a esperar conexiones
+        public void run()
+        {
+            boolean waiting=true;
+            this.btSocket=null; //Este será el punto de conexión entre el cliente y nosotros
+
+            while(waiting)
+            { //Mientras no reciba conexiones
+                mostrarProgressDialog();
+                try
+                {
+                    this.btSocket = serverSocket.accept(); //Esperamos a que un dispositivo se nos conecte
+                    //accept(); lo que hace es permitir conexiones entrantes
+
+                } catch (IOException e)
+                {
+                    waiting=false;
+                    e.printStackTrace();
+
+                }
+                if(this.btSocket!=null)
+                {
+                    try
+                    {
+                        serverSocket.close(); //Si se nos ha conectado un dispositivo, cerramos el serverSocket
+                        //Podremos seguir tratanto con el Dispositivo remoto aunque cerremos el serverSocket
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            quitarProgressDialog();
+        }
+        public void cancel()
+        {
+            try
+            {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public BluetoothServerSocket getServerSocket() {
+            return serverSocket;
+        }
+
+        public BluetoothSocket getBtSocket() {
+            return btSocket;
+        }
     }
 }

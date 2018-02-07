@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChooseGameType" android:screenOrientation="portrait"/>
+        <activity android:name=".ChooseGameType" android:launchMode="singleInstance" android:screenOrientation="portrait"/>
         <activity android:name=".JoinGame" android:screenOrientation="portrait"/>
         <activity android:name=".CreateGame" android:screenOrientation="portrait"/>
         <activity android:name=".GameActivity" android:screenOrientation="portrait"></activity>

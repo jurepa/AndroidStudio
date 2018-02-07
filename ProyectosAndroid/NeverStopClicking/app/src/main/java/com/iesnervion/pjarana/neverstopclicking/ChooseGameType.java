@@ -1,5 +1,6 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +14,14 @@ public class ChooseGameType extends AppCompatActivity {
     Button btnLocal;
     Button btnUnirse;
     Button btnVolver;
+    static Activity chooseGameType;
     BluetoothAdapter bluetoothAdapter;
     final int REQUEST_ENABLE_BT=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_type_game);
+        chooseGameType=this;
         btnLocal=(Button)findViewById(R.id.btnLocal);
         btnUnirse=(Button)findViewById(R.id.btnUnirse);
         btnVolver=(Button)findViewById(R.id.btnVolver);
@@ -74,4 +77,5 @@ public class ChooseGameType extends AppCompatActivity {
             }
         }
     }
+
 }

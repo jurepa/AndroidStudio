@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         MediaPlayer musicTetris=MediaPlayer.create(this,R.raw.tetris);
         musicTetris.start();
         musicTetris.setLooping(true);
+        musicTetris.release();
         btnSalir=findViewById(R.id.btnSalir);
         btnJugar=findViewById(R.id.btnJugar);
         btnJugar.setOnClickListener(new View.OnClickListener() {

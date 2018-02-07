@@ -37,7 +37,8 @@ public class ConnectedThread  extends Thread{
         int bytes; // bytes devueltos por .read()
 
         // Esperamos hasta que ocurra una excpcion
-        while (true) {
+        while (true)
+        {
             try {
                 // Leemos del input
                 bytes = inputStream.read(buffer);
@@ -54,8 +55,7 @@ public class ConnectedThread  extends Thread{
     public void write(byte[] bytes) {
         try {
             outputStream.write(bytes);
-            mHandler.obtainMessage(1, -1, -1, bytes)
-                    .sendToTarget();
+
         } catch (IOException e)
         {
             e.printStackTrace();

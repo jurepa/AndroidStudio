@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class JoinGame extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ArrayList<BluetoothDevice>listaDispositivos;
     ProgressBar progressBar;
+    Button btnBuscarDispositivos;
     BluetoothSocket socket;
     BluetoothDevice dispositivoAConectar;
     static final UUID IDENTIFIER=UUID.fromString("cda489c4-328c-45d5-80bf-240ff74f4277");
@@ -36,6 +38,8 @@ public class JoinGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_game);
+        btnBuscarDispositivos=(Button)findViewById(R.id.buscarDispositivos);
+
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
         lista=(ListView)findViewById(R.id.listaDispositivos);
         lista.setClickable(false);
@@ -55,7 +59,8 @@ public class JoinGame extends AppCompatActivity {
         {
             bluetoothAdapter.cancelDiscovery();
         }
-        bluetoothAdapter.startDiscovery();//Empezamos el escaneo de dispositivos
+        bluetoothAdapter.startDiscovery();
+        btnBuscarDispositivos.setClickable(false);//Empezamos el escaneo de dispositivos
         progressBar.setVisibility(View.VISIBLE);
         IntentFilter intentFilter1=new IntentFilter(BluetoothDevice.ACTION_FOUND); //Cuando encuentre un dispositivo, que entre al BroadcastReceiver
         IntentFilter intentFilter2=new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);//Cuando termine de escanear, que entre al BroadCastReceiver
@@ -67,7 +72,14 @@ public class JoinGame extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             listaDispositivos.add(device);
         }
-
+        btnBuscarDispositivos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bluetoothAdapter.startDiscovery();
+                btnBuscarDispositivos.setClickable(false);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
     private final BroadcastReceiver br=new BroadcastReceiver() {
@@ -83,6 +95,7 @@ public class JoinGame extends AppCompatActivity {
             if(intent.getAction()==BluetoothAdapter.ACTION_DISCOVERY_FINISHED) //Si ha terminado de escanear quitamos la progressbar
             {
                 progressBar.setVisibility(View.INVISIBLE);
+                btnBuscarDispositivos.setClickable(true);
                 lista.setClickable(true);
                 lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -112,6 +125,12 @@ public class JoinGame extends AppCompatActivity {
     protected void onDestroy() { //Recomendación de AndroidDevelopers
         super.onDestroy();
         unregisterReceiver(br);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
     @Override

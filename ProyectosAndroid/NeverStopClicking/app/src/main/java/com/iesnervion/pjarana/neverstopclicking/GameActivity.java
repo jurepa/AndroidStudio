@@ -3,6 +3,7 @@ package com.iesnervion.pjarana.neverstopclicking;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
     ConnectedThread gestoraConexion;
     ConnectThread conexion;
     BluetoothDevice dispositivoAConectar;
+    ProgressDialog progressDialog;
     TextView txtClicks;
     int clicks;
     int clicksAdversario;
@@ -42,28 +44,32 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        mHandler=new Handler(Looper.getMainLooper())
+        mHandler=new Handler()
         {
             @Override
             public void handleMessage(Message inputMessage)
             {
-                clicksAdversario=(int)inputMessage.obj;
-                if(inputMessage.what==1)
-                {
+                byte[] write = (byte[]) inputMessage.obj;
+                String res = new String(write, 0, inputMessage.arg1);
+                String mensaje = res.trim();
+                clicksAdversario=Integer.parseInt(mensaje);
                     final AlertDialog.Builder builder=new AlertDialog.Builder(GameActivity.this);
                     if(clicksAdversario>clicks)
                     {
                         builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                        builder.setTitle("Derrota...");
                     }
                     else if(clicksAdversario==clicks)
                     {
                         builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                        builder.setTitle("Empate");
                     }
                     else
                     {
                         builder.setMessage("Has ganado, vaya crack, clicks del oponente: "+String.valueOf(clicksAdversario));
+                        builder.setTitle("Victoria!!!");
                     }
-                    builder.setTitle("Salir");
+
                     builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -72,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
-                }
+                    ChooseGameType.chooseGameType.finish();
             }
 
         };
@@ -91,8 +97,8 @@ public class GameActivity extends AppCompatActivity {
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
 
                     gestoraConexion=new ConnectedThread(conexion.getSocket(),mHandler);
-                    gestoraConexion.write(ByteBuffer.allocate(1024).putInt(clicks).array());
-                    gestoraConexion.run();
+                    gestoraConexion.start();
+                    gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }
             }
         });
@@ -121,6 +127,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
-        conexion.run();
+        conexion.start();
     }
 }

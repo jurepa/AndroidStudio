@@ -15,7 +15,6 @@ import java.util.UUID;
 
 public class ConnectThread extends Thread {
     private BluetoothSocket socket;
-    private BluetoothDevice dispositivoRemoto;
     private BluetoothAdapter mBluetoothAdapter;
 
     public ConnectThread(BluetoothDevice dispositivoRemoto, BluetoothAdapter miDispositivo)
@@ -49,8 +48,6 @@ public class ConnectThread extends Thread {
                 e1.printStackTrace();
             }
         }
-
-        //Aquí hacemos los que sea, manageConnection
     }
 
 }

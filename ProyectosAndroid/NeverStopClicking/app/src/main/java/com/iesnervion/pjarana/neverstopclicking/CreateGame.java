@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -18,6 +19,7 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class CreateGame extends AppCompatActivity {
     Handler mHandler;
     byte[]bytes;
     AcceptThread aceptarConexiones;
+    Button btnCancelar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +66,12 @@ public class CreateGame extends AppCompatActivity {
                     final AlertDialog.Builder builder=new AlertDialog.Builder(CreateGame.this);
                     if(clicksAdversario>clicks)
                     {
-                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
                         builder.setTitle("Derrota...");
                     }
                     else if(clicksAdversario==clicks)
                     {
-                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
                         builder.setTitle("Empate");
                     }
                     else
@@ -81,10 +84,11 @@ public class CreateGame extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                             System.exit(0);
+                            ChooseGameType.chooseGameType.finish();
                         }
                     });
                     builder.create().show();
-                    ChooseGameType.chooseGameType.finish();
+
             }
 
         };
@@ -119,7 +123,6 @@ public class CreateGame extends AppCompatActivity {
                     isChronoRunning = true;
 
                 }
-
                 buttonClick.setSelected(true);
                 buttonClick.likeAnimation(new AnimatorListenerAdapter() {
                     @Override
@@ -133,30 +136,59 @@ public class CreateGame extends AppCompatActivity {
 
             }
         });
-        aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
-        aceptarConexiones.start();
+
+        new AsyncTask<Void,Void,Void>()
+        {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                mostrarProgressDialog();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
+                aceptarConexiones.run();
+                return  null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                quitarProgressDialog();
+            }
+        }.execute();
 
     }
     public void mostrarProgressDialog()
     {
-        runOnUiThread(new Runnable() {
+        /*runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                dialog=new Dialog(getApplicationContext());
-                dialog.setTitle("Esperando oponente...");
+            public void run() {*/
+                dialog=new Dialog(CreateGame.this);
+                dialog.setContentView(R.layout.customdialog);
+                btnCancelar=dialog.findViewById(R.id.btnCancelar);
+                btnCancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        CreateGame.this.finish();
+                    }
+                });
                 dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
-            }
-        });
+           /*}
+        });*/
     }
     public void quitarProgressDialog()
     {
-        runOnUiThread(new Runnable() {
+       /* runOnUiThread(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 dialog.dismiss();
-            }
-        });
+           /*}
+        });*/
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -174,7 +206,7 @@ public class CreateGame extends AppCompatActivity {
     /*
     Clase de conexion como servidor
      */
-    private class AcceptThread extends Thread {
+    private class AcceptThread {
 
         private static final String APPNAME="NEVERSTOPCLICKING";
         private BluetoothServerSocket serverSocket;
@@ -200,7 +232,6 @@ public class CreateGame extends AppCompatActivity {
 
             while(waiting)
             { //Mientras no reciba conexiones
-                mostrarProgressDialog();
                 try
                 {
                     this.btSocket = serverSocket.accept(); //Esperamos a que un dispositivo se nos conecte
@@ -225,7 +256,6 @@ public class CreateGame extends AppCompatActivity {
                 }
 
             }
-            quitarProgressDialog();
         }
         public void cancel()
         {

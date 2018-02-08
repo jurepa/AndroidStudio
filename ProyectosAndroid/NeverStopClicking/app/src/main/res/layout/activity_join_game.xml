@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.iesnervion.pjarana.neverstopclicking.JoinGame">
+    <TextView
+        android:id="@+id/header"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Elige el dispositivo al que deseas conectarte: \n\n -Asegúrate de que el dispositivo al que te conectas es el correcto o no podréis jugar"/>
     <ListView
+        android:layout_below="@id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listaDispositivos"/>
@@ -23,6 +30,15 @@
         android:text="Buscar dispositivos"
         android:id="@+id/buscarDispositivos"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+    <Button
+        android:id="@+id/cancelarBusqueda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar busqueda"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/buscarDispositivos"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

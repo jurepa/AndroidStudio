@@ -30,6 +30,7 @@ public class JoinGame extends AppCompatActivity {
     ArrayList<BluetoothDevice>listaDispositivos;
     ProgressBar progressBar;
     Button btnBuscarDispositivos;
+    Button btnCancelarBusqueda;
     BluetoothSocket socket;
     BluetoothDevice dispositivoAConectar;
     static final UUID IDENTIFIER=UUID.fromString("cda489c4-328c-45d5-80bf-240ff74f4277");
@@ -37,9 +38,9 @@ public class JoinGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_local_game);
+        setContentView(R.layout.activity_join_game);
         btnBuscarDispositivos=(Button)findViewById(R.id.buscarDispositivos);
-
+        btnCancelarBusqueda=(Button)findViewById(R.id.cancelarBusqueda);
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
         lista=(ListView)findViewById(R.id.listaDispositivos);
         lista.setClickable(false);
@@ -78,6 +79,16 @@ public class JoinGame extends AppCompatActivity {
                 bluetoothAdapter.startDiscovery();
                 btnBuscarDispositivos.setClickable(false);
                 progressBar.setVisibility(View.VISIBLE);
+            }
+        });
+        btnCancelarBusqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bluetoothAdapter.isDiscovering()) {
+                    bluetoothAdapter.cancelDiscovery();
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
 

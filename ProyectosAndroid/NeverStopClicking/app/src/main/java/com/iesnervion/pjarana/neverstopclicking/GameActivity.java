@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     else if(clicksAdversario==clicks)
                     {
-                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
                         builder.setTitle("Empate");
                     }
                     else
@@ -74,11 +74,11 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
+                            ChooseGameType.chooseGameType.finish();
                             System.exit(0);
                         }
                     });
                     builder.create().show();
-                    ChooseGameType.chooseGameType.finish();
             }
 
         };

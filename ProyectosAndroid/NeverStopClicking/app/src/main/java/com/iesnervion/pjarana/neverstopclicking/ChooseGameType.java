@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class ChooseGameType extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_type_game);
         chooseGameType=this;
+        MainActivity.musicTetris.release();
         btnLocal=(Button)findViewById(R.id.btnLocal);
         btnUnirse=(Button)findViewById(R.id.btnUnirse);
         btnVolver=(Button)findViewById(R.id.btnVolver);
@@ -78,4 +80,12 @@ public class ChooseGameType extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK)
+        {
+            bluetoothAdapter.disable();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -23,7 +23,6 @@ public class ChooseGameType extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_type_game);
         chooseGameType=this;
-        MainActivity.musicTetris.release();
         btnLocal=(Button)findViewById(R.id.btnLocal);
         btnUnirse=(Button)findViewById(R.id.btnUnirse);
         btnVolver=(Button)findViewById(R.id.btnVolver);
@@ -44,7 +43,6 @@ public class ChooseGameType extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                bluetoothAdapter.disable();
                 finish();
             }
         });
@@ -84,7 +82,7 @@ public class ChooseGameType extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK)
         {
-            bluetoothAdapter.disable();
+            finish();
         }
         return super.onKeyDown(keyCode, event);
     }

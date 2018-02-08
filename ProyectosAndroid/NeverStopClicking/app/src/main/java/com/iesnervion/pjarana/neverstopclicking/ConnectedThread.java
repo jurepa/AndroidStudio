@@ -26,7 +26,8 @@ public class ConnectedThread  extends Thread{
         try {
             this.inputStream=socket.getInputStream();
             this.outputStream=socket.getOutputStream();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }

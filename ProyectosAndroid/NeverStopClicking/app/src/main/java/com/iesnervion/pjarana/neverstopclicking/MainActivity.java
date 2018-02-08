@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSalir;
     Button btnJugar;
-    static MediaPlayer musicTetris;
+    MediaPlayer musicTetris;
     AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,5 +79,11 @@ public class MainActivity extends AppCompatActivity {
             builder.create().show();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        musicTetris.release();
     }
 }

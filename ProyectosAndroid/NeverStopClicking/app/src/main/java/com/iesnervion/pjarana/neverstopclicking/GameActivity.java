@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -33,9 +35,12 @@ public class GameActivity extends AppCompatActivity {
     BluetoothDevice dispositivoAConectar;
     ProgressDialog progressDialog;
     TextView txtClicks;
+    TextView txtClicksRival;
+    MediaPlayer disparo;
     int clicks;
     int clicksAdversario;
     boolean isChronoRunning;
+    boolean heHechoClick;
     SmallBangView buttonClick;
     Chronometer chrono;
     Handler mHandler;
@@ -44,6 +49,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        disparo=MediaPlayer.create(this,R.raw.disparo);
         mHandler=new Handler()
         {
             @Override
@@ -53,20 +59,17 @@ public class GameActivity extends AppCompatActivity {
                 String res = new String(write, 0, inputMessage.arg1);
                 String mensaje = res.trim();
                 clicksAdversario=Integer.parseInt(mensaje);
-                    final AlertDialog.Builder builder=new AlertDialog.Builder(GameActivity.this);
-                    if(clicksAdversario>clicks)
-                    {
-                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho "+String.valueOf(clicksAdversario));
+                txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
+                if (!isChronoRunning&&heHechoClick) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+                    if (clicksAdversario > clicks) {
+                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho " + String.valueOf(clicksAdversario));
                         builder.setTitle("Derrota...");
-                    }
-                    else if(clicksAdversario==clicks)
-                    {
-                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
+                    } else if (clicksAdversario == clicks) {
+                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Empate");
-                    }
-                    else
-                    {
-                        builder.setMessage("Has ganado, vaya crack, clicks del oponente: "+String.valueOf(clicksAdversario));
+                    } else {
+                        builder.setMessage("Has ganado, vaya crack, clicks del oponente: " + String.valueOf(clicksAdversario));
                         builder.setTitle("Victoria!!!");
                     }
 
@@ -79,12 +82,32 @@ public class GameActivity extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
+                }
             }
 
         };
         clicks=0;
+        heHechoClick=false;
         isChronoRunning=false;
         dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
+        new AsyncTask<Void,Void,Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
+                conexion.run();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                gestoraConexion=new ConnectedThread(conexion.getSocket(),mHandler);
+                gestoraConexion.start();
+            }
+        }.execute();
+
+        txtClicksRival=(TextView)findViewById(R.id.clicksRival);
         txtClicks=(TextView)findViewById(R.id.txtClicks);
         chrono=(Chronometer)findViewById(R.id.chronometer);
         chrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -94,25 +117,23 @@ public class GameActivity extends AppCompatActivity {
                 {
                     chrono.stop();
                     buttonClick.setClickable(false);
-                    //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
-
-                    gestoraConexion=new ConnectedThread(conexion.getSocket(),mHandler);
-                    gestoraConexion.start();
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }
             }
         });
+
         buttonClick=findViewById(R.id.buttonClicks);
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                heHechoClick=true;
                 if (!isChronoRunning) {
                     chrono.setBase(SystemClock.elapsedRealtime());
                     chrono.start();
                     isChronoRunning = true;
 
                 }
-
+                disparo.start();
                 buttonClick.setSelected(true);
                 buttonClick.likeAnimation(new AnimatorListenerAdapter() {
                     @Override
@@ -123,10 +144,16 @@ public class GameActivity extends AppCompatActivity {
                 });
                 clicks++;
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
+                gestoraConexion.write(String.valueOf(clicks).getBytes());
 
             }
         });
-        conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
-        conexion.start();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disparo.release();
     }
 }

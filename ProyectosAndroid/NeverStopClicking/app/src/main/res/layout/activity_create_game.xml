@@ -47,7 +47,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
+        android:layout_alignParentLeft="true"
         android:text="Clicks: "
         android:textSize="30dp"
         />
+    <TextView
+        android:id="@+id/clicksRival"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clicks rival: "
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/buttonClicks"
+        android:layout_marginTop="30dp"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:textSize="30dp"/>
 </RelativeLayout>

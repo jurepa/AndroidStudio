@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,12 +36,15 @@ public class CreateGame extends AppCompatActivity {
     BluetoothDevice dispositivoAConectar;
     Dialog dialog;
     TextView txtClicks;
+    TextView txtClicksRival;
     int clicks;
     int clicksAdversario;
     boolean isChronoRunning;
     SmallBangView buttonClick;
     Chronometer chrono;
     Handler mHandler;
+    MediaPlayer disparo;
+    boolean heHechoClick;
     byte[]bytes;
     AcceptThread aceptarConexiones;
     Button btnCancelar;
@@ -63,20 +67,17 @@ public class CreateGame extends AppCompatActivity {
                 String res = new String(write, 0, inputMessage.arg1);
                 String mensaje = res.trim();
                 clicksAdversario=Integer.parseInt(mensaje);
-                    final AlertDialog.Builder builder=new AlertDialog.Builder(CreateGame.this);
-                    if(clicksAdversario>clicks)
-                    {
-                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
+                txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
+                if(!isChronoRunning&&heHechoClick) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(CreateGame.this);
+                    if (clicksAdversario > clicks) {
+                        builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Derrota...");
-                    }
-                    else if(clicksAdversario==clicks)
-                    {
-                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho "+String.valueOf(clicksAdversario)+" clicks");
+                    } else if (clicksAdversario == clicks) {
+                        builder.setMessage("Lol, habéis empatado, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Empate");
-                    }
-                    else
-                    {
-                        builder.setMessage("Has ganado, vaya crack, clicks del oponente: "+String.valueOf(clicksAdversario));
+                    } else {
+                        builder.setMessage("Has ganado, vaya crack, clicks del oponente: " + String.valueOf(clicksAdversario));
                         builder.setTitle("Victoria!!");
                     }
                     builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
@@ -88,15 +89,20 @@ public class CreateGame extends AppCompatActivity {
                         }
                     });
                     builder.create().show();
+                }
 
             }
 
         };
         clicks=0;
+        heHechoClick=false;
         isChronoRunning=false;
+        disparo=MediaPlayer.create(this,R.raw.disparo);
         dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
+        txtClicksRival=(TextView)findViewById(R.id.clicksRival);
         txtClicks=(TextView)findViewById(R.id.txtClicks);
         chrono=(Chronometer)findViewById(R.id.chronometer);
+
         chrono.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -105,11 +111,7 @@ public class CreateGame extends AppCompatActivity {
                     chrono.stop();
                     buttonClick.setClickable(false);
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
-
-                    gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
-                    gestoraConexion.start();
-
                 }
             }
         });
@@ -117,12 +119,14 @@ public class CreateGame extends AppCompatActivity {
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                heHechoClick=true;
                 if (!isChronoRunning) {
                     chrono.setBase(SystemClock.elapsedRealtime());
                     chrono.start();
                     isChronoRunning = true;
 
                 }
+                disparo.start();
                 buttonClick.setSelected(true);
                 buttonClick.likeAnimation(new AnimatorListenerAdapter() {
                     @Override
@@ -133,6 +137,7 @@ public class CreateGame extends AppCompatActivity {
                 });
                 clicks++;
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
+                gestoraConexion.write(String.valueOf(clicks).getBytes());
 
             }
         });
@@ -156,6 +161,8 @@ public class CreateGame extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 quitarProgressDialog();
+                gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
+                gestoraConexion.start();
             }
         }.execute();
 

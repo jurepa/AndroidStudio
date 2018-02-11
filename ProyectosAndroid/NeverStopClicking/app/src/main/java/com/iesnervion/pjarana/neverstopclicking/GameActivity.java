@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -25,15 +26,16 @@ import xyz.hanks.library.bang.SmallBangView;
 /*
 ANOTACIONES:
 
--Se queda pillado al enviar los datos
--Hay veces que no encuentra dispositivos nuevos, poner cartelito al principio que es mejor vincularlos antes
+-Se queda pillado al enviar los datos (SOLUCIONADO)
+-Hay veces que no encuentra dispositivos nuevos, poner cartelito al principio que es mejor vincularlos antes (SOLUCIONADO)
  */
 public class GameActivity extends AppCompatActivity {
 
     ConnectedThread gestoraConexion;
     ConnectThread conexion;
     BluetoothDevice dispositivoAConectar;
-    ProgressDialog progressDialog;
+    SharedPreferences estadisticas;
+    SharedPreferences.Editor editor;
     TextView txtClicks;
     TextView txtClicksRival;
     MediaPlayer disparo;
@@ -77,7 +79,6 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
-                            ChooseGameType.chooseGameType.finish();
                             System.exit(0);
                         }
                     });
@@ -117,6 +118,7 @@ public class GameActivity extends AppCompatActivity {
                 {
                     chrono.stop();
                     buttonClick.setClickable(false);
+                    isChronoRunning=false;
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }
             }

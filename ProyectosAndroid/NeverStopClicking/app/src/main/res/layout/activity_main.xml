@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:id="@+id/btnOpciones"
-        android:text="opciones"
+        android:text="estadísticas"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:background="@drawable/buttonshape"

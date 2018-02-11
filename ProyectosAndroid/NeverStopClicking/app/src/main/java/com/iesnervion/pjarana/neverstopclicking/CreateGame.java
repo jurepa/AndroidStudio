@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -29,6 +30,12 @@ import java.nio.ByteBuffer;
 
 import xyz.hanks.library.bang.SmallBangView;
 
+/*
+ANOTACIONES:
+
+-Se queda pillado al enviar los datos (SOLUCIONADO)
+-Hay veces que no encuentra dispositivos nuevos, poner cartelito al principio que es mejor vincularlos antes (SOLUCIONADO)
+ */
 public class CreateGame extends AppCompatActivity {
 
     private final int MYBTISDISCOVERABLE=1;
@@ -37,6 +44,8 @@ public class CreateGame extends AppCompatActivity {
     Dialog dialog;
     TextView txtClicks;
     TextView txtClicksRival;
+    SharedPreferences estadisticas;
+    SharedPreferences.Editor editor;
     int clicks;
     int clicksAdversario;
     boolean isChronoRunning;
@@ -85,7 +94,6 @@ public class CreateGame extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                             System.exit(0);
-                            ChooseGameType.chooseGameType.finish();
                         }
                     });
                     builder.create().show();
@@ -110,6 +118,7 @@ public class CreateGame extends AppCompatActivity {
                 {
                     chrono.stop();
                     buttonClick.setClickable(false);
+                    isChronoRunning=false;
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }

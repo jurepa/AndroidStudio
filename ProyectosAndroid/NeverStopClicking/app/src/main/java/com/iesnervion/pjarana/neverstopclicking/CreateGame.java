@@ -151,7 +151,7 @@ public class CreateGame extends AppCompatActivity {
             }
         });
 
-        new AsyncTask<Void,Void,Void>()
+        new AsyncTask<Void,Void,Void>() //Clase privada que extienda de asynctask
         {
             @Override
             protected void onPreExecute() {

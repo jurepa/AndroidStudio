@@ -91,7 +91,7 @@ public class GameActivity extends AppCompatActivity {
         heHechoClick=false;
         isChronoRunning=false;
         dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
-        new AsyncTask<Void,Void,Void>()
+        new AsyncTask<Void,Void,Void>() //Clase privada que extienda de asynctask
         {
             @Override
             protected Void doInBackground(Void... voids) {

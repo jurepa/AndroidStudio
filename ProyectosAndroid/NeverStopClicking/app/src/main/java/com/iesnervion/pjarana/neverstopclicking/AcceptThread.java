@@ -10,7 +10,7 @@ import java.io.IOException;
  * Created by pjarana on 12/02/18.
  */
 
-public class AcceptThread {
+public class AcceptThread extends Thread {
     private static final String APPNAME="NEVERSTOPCLICKING";
     private BluetoothServerSocket serverSocket;
     private BluetoothSocket btSocket;

@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 import xyz.hanks.library.bang.SmallBangView;
 
@@ -61,6 +67,7 @@ public class CreateGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+        estadisticas=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
         if(BluetoothAdapter.getDefaultAdapter().getScanMode()!=BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //Si el móvil no es visible, hacemos una petición al usuario para ponerlo visible
         {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -78,16 +85,20 @@ public class CreateGame extends AppCompatActivity {
                 clicksAdversario=Integer.parseInt(mensaje);
                 txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
                 if(!isChronoRunning&&heHechoClick) {
+                    editor=estadisticas.edit();
                     final AlertDialog.Builder builder = new AlertDialog.Builder(CreateGame.this);
                     if (clicksAdversario > clicks) {
                         builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Derrota...");
+                        editor.putString("estado","Derrota");
                     } else if (clicksAdversario == clicks) {
                         builder.setMessage("Lol, habéis empatado, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Empate");
+                        editor.putString("estado","Empate");
                     } else {
                         builder.setMessage("Has ganado, vaya crack, clicks del oponente: " + String.valueOf(clicksAdversario));
                         builder.setTitle("Victoria!!");
+                        editor.putString("estado","Victoria");
                     }
                     builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
                         @Override
@@ -96,6 +107,11 @@ public class CreateGame extends AppCompatActivity {
                             System.exit(0);
                         }
                     });
+                    editor.putString("fecha", new SimpleDateFormat("yyyy:MM:dd - hh:mm:ss a").format(Calendar.getInstance().getTime()));
+                    editor.putInt("clicks",clicks);
+                    editor.putInt("clicksAdversario",clicksAdversario);
+                    editor.putInt("clicksPorSegundo",clicks/5);
+                    editor.commit();
                     builder.create().show();
                 }
 
@@ -151,29 +167,8 @@ public class CreateGame extends AppCompatActivity {
             }
         });
 
-        new AsyncTask<Void,Void,Void>() //Clase privada que extienda de asynctask
-        {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                mostrarProgressDialog();
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
-                aceptarConexiones.run();
-                return  null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                quitarProgressDialog();
-                gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
-                gestoraConexion.start();
-            }
-        }.execute();
+        ConnectionBT conexion=new ConnectionBT();
+        conexion.execute();
 
     }
     public void mostrarProgressDialog()
@@ -218,5 +213,29 @@ public class CreateGame extends AppCompatActivity {
             finish();
             Toast.makeText(this,"No puedes unirte a una partida si tu teléfono no es visible",Toast.LENGTH_LONG).show();
         }*/
+    }
+
+    private class ConnectionBT extends AsyncTask<Void,Void,Void>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mostrarProgressDialog();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            aceptarConexiones=new AcceptThread(BluetoothAdapter.getDefaultAdapter());
+            aceptarConexiones.run();
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            quitarProgressDialog();
+            gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
+            gestoraConexion.start();
+        }
     }
 }

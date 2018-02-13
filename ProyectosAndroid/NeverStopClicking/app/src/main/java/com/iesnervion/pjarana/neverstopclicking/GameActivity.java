@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -21,6 +22,10 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import xyz.hanks.library.bang.SmallBangView;
 
 /*
@@ -52,6 +57,8 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         disparo=MediaPlayer.create(this,R.raw.disparo);
+        estadisticas=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
+
         mHandler=new Handler()
         {
             @Override
@@ -63,16 +70,20 @@ public class GameActivity extends AppCompatActivity {
                 clicksAdversario=Integer.parseInt(mensaje);
                 txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
                 if (!isChronoRunning&&heHechoClick) {
+                    editor=estadisticas.edit();
                     final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
                     if (clicksAdversario > clicks) {
                         builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho " + String.valueOf(clicksAdversario));
                         builder.setTitle("Derrota...");
+                        editor.putString("estado","Derrota");
                     } else if (clicksAdversario == clicks) {
                         builder.setMessage("Lol, habéis empatado, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
                         builder.setTitle("Empate");
+                        editor.putString("estado","Empate");
                     } else {
                         builder.setMessage("Has ganado, vaya crack, clicks del oponente: " + String.valueOf(clicksAdversario));
                         builder.setTitle("Victoria!!!");
+                        editor.putString("estado","Victoria");
                     }
 
                     builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
@@ -82,6 +93,12 @@ public class GameActivity extends AppCompatActivity {
                             System.exit(0);
                         }
                     });
+
+                    editor.putString("fecha", new SimpleDateFormat("yyyy:MM:dd - hh:mm:ss a").format(Calendar.getInstance().getTime()));
+                    editor.putInt("clicks",clicks);
+                    editor.putInt("clicksAdversario",clicksAdversario);
+                    editor.putInt("clicksPorSegundo",clicks/5);
+                    editor.commit();
                     builder.create().show();
                 }
             }
@@ -91,22 +108,8 @@ public class GameActivity extends AppCompatActivity {
         heHechoClick=false;
         isChronoRunning=false;
         dispositivoAConectar=getIntent().getParcelableExtra("dispositivoAConectar");
-        new AsyncTask<Void,Void,Void>() //Clase privada que extienda de asynctask
-        {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
-                conexion.run();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                gestoraConexion=new ConnectedThread(conexion.getSocket(),mHandler);
-                gestoraConexion.start();
-            }
-        }.execute();
+        ConnectionBT conexion=new ConnectionBT();
+        conexion.execute();
 
         txtClicksRival=(TextView)findViewById(R.id.clicksRival);
         txtClicks=(TextView)findViewById(R.id.txtClicks);
@@ -157,5 +160,22 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         disparo.release();
+    }
+
+    private class ConnectionBT extends AsyncTask<Void,Void,Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            conexion=new ConnectThread(dispositivoAConectar, BluetoothAdapter.getDefaultAdapter());
+            conexion.run();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            gestoraConexion=new ConnectedThread(conexion.getSocket(),mHandler);
+            gestoraConexion.start();
+        }
     }
 }

@@ -14,6 +14,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSalir;
+    Button btnEstadisticas;
     Button btnJugar;
     MediaPlayer musicTetris;
     AlertDialog.Builder builder;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         musicTetris=MediaPlayer.create(this,R.raw.tetris);
         musicTetris.start();
         musicTetris.setLooping(true);
+        btnEstadisticas=(Button)findViewById(R.id.btnOpciones);
         btnSalir=findViewById(R.id.btnSalir);
         btnJugar=findViewById(R.id.btnJugar);
         builder=new AlertDialog.Builder(MainActivity.this);
@@ -45,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+        btnEstadisticas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),StatsActivity.class);
+                startActivity(i);
             }
         });
         btnJugar.setOnClickListener(new View.OnClickListener() {

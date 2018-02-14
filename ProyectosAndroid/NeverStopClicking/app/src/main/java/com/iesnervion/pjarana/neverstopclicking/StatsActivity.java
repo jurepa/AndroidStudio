@@ -27,7 +27,7 @@ public class StatsActivity extends AppCompatActivity {
         resultado.setText(resultado.getText().toString()+" "+fichero.getString("estado","No has jugado todavía"));
         clicks.setText(clicks.getText().toString()+" "+String.valueOf(fichero.getInt("clicks",0)));
         clicksRival.setText(clicksRival.getText().toString()+" "+String.valueOf(fichero.getInt("clicksAdversario",0)));
-        clicksPorSegundo.setText(clicksPorSegundo.getText().toString()+" "+String.valueOf(fichero.getInt("clicksPorSegundo",0)));
+        clicksPorSegundo.setText(clicksPorSegundo.getText().toString()+" "+String.valueOf(fichero.getFloat("clicksPorSegundo",0)));
         fecha.setText(fecha.getText().toString()+" "+fichero.getString("fecha","No has jugado todavía"));
     }
 }

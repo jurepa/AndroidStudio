@@ -85,9 +85,10 @@ public class ChooseGameType extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
+/*    @Override
     protected void onPause() {
         super.onPause();
         finish();
     }
+    */
 }

@@ -60,14 +60,18 @@ public class CreateGame extends AppCompatActivity {
     Handler mHandler;
     MediaPlayer disparo;
     boolean heHechoClick;
-    byte[]bytes;
+    boolean rivalHaAcabado;
+    final String mensajeFinalizacion="s";
     AcceptThread aceptarConexiones;
     Button btnCancelar;
+    boolean heAcabado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
         estadisticas=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
+        ConnectionBT conexion=new ConnectionBT();
+        conexion.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         if(BluetoothAdapter.getDefaultAdapter().getScanMode()!=BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //Si el móvil no es visible, hacemos una petición al usuario para ponerlo visible
         {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -82,9 +86,16 @@ public class CreateGame extends AppCompatActivity {
                 byte[] write = (byte[]) inputMessage.obj;
                 String res = new String(write, 0, inputMessage.arg1);
                 String mensaje = res.trim();
-                clicksAdversario=Integer.parseInt(mensaje);
-                txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
-                if(!isChronoRunning&&heHechoClick) {
+                if(Character.isDigit(mensaje.charAt(0)))
+                {
+                    clicksAdversario=Integer.parseInt(mensaje);
+                    txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
+                }
+                else
+                {
+                    rivalHaAcabado=true;
+                }
+                /*if(!isChronoRunning&&heHechoClick&&rivalHaAcabado) {
                     editor=estadisticas.edit();
                     final AlertDialog.Builder builder = new AlertDialog.Builder(CreateGame.this);
                     if (clicksAdversario > clicks) {
@@ -104,21 +115,22 @@ public class CreateGame extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
-                            System.exit(0);
                         }
                     });
-                    editor.putString("fecha", new SimpleDateFormat("yyyy:MM:dd - hh:mm:ss a").format(Calendar.getInstance().getTime()));
+
+                    editor.putString("fecha", new SimpleDateFormat("yyyy/MM/dd - hh:mm:ss a").format(Calendar.getInstance().getTime()));
                     editor.putInt("clicks",clicks);
                     editor.putInt("clicksAdversario",clicksAdversario);
-                    editor.putInt("clicksPorSegundo",clicks/5);
+                    editor.putFloat("clicksPorSegundo",Float.parseFloat(String.valueOf(clicks))/5);
                     editor.commit();
                     builder.create().show();
-                }
+                }*/
 
             }
 
         };
         clicks=0;
+        heAcabado=false;
         heHechoClick=false;
         isChronoRunning=false;
         disparo=MediaPlayer.create(this,R.raw.disparo);
@@ -132,11 +144,14 @@ public class CreateGame extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 if(chrono.getText().toString().equalsIgnoreCase("00:05"))
                 {
+                    isChronoRunning=false;
+                    heAcabado=true;
                     chrono.stop();
                     buttonClick.setClickable(false);
-                    isChronoRunning=false;
                     //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
+                    gestoraConexion.write(mensajeFinalizacion.getBytes());
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
+
                 }
             }
         });
@@ -167,8 +182,7 @@ public class CreateGame extends AppCompatActivity {
             }
         });
 
-        ConnectionBT conexion=new ConnectionBT();
-        conexion.execute();
+
 
     }
     public void mostrarProgressDialog()
@@ -219,7 +233,6 @@ public class CreateGame extends AppCompatActivity {
     {
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
             mostrarProgressDialog();
         }
 
@@ -232,10 +245,55 @@ public class CreateGame extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
             quitarProgressDialog();
             gestoraConexion=new ConnectedThread(aceptarConexiones.getBtSocket(),mHandler);
             gestoraConexion.start();
+            comprobarGanador prueba=new comprobarGanador();
+            prueba.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
+    private class comprobarGanador extends AsyncTask<Void,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            while(!heAcabado&&!rivalHaAcabado);
+            return  null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            editor=estadisticas.edit();
+            final AlertDialog.Builder builder = new AlertDialog.Builder(CreateGame.this);
+            if (clicksAdversario > clicks) {
+                builder.setMessage("Vaya parguela, has perdido, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
+                builder.setTitle("Derrota...");
+                editor.putString("estado","Derrota");
+            } else if (clicksAdversario == clicks) {
+                builder.setMessage("Lol, habéis empatado, tu oponente ha hecho " + String.valueOf(clicksAdversario) + " clicks");
+                builder.setTitle("Empate");
+                editor.putString("estado","Empate");
+            } else {
+                builder.setMessage("Has ganado, vaya crack, clicks del oponente: " + String.valueOf(clicksAdversario));
+                builder.setTitle("Victoria!!");
+                editor.putString("estado","Victoria");
+            }
+            builder.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+
+            editor.putString("fecha", new SimpleDateFormat("yyyy/MM/dd - hh:mm:ss a").format(Calendar.getInstance().getTime()));
+            editor.putInt("clicks",clicks);
+            editor.putInt("clicksAdversario",clicksAdversario);
+            editor.putFloat("clicksPorSegundo",Float.parseFloat(String.valueOf(clicks))/5);
+            editor.commit();
+            builder.create().show();
+        }
+    }
+
+
 }

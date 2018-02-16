@@ -17,12 +17,22 @@
         android:layout_marginTop="20dp"
         android:textColor="@android:color/black"/>
 
+    <!-- Fragment dinamico -->
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_below="@id/texto"
-        android:id="@+id/layoutMainActivity"
+        android:id="@+id/layoutMainActivity2"
         ></FrameLayout>
+    <!--Fragment estatico-->
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.iesnervion.pjarana.fragments.Fragment1"
+        android:layout_toRightOf="@id/layoutMainActivity2"
+        android:layout_below="@id/texto"
+        android:id="@+id/layoutMainActivity"
+        ></fragment>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,5 +40,6 @@
         android:id="@+id/btnFragment"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>

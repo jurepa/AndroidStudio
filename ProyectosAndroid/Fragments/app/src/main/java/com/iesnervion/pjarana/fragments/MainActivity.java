@@ -1,5 +1,6 @@
 package com.iesnervion.pjarana.fragments;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
 
     Button btnFragment;
     Fragment1 fragment1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
             public void onClick(View v) {
                 FragmentTransaction fragment=getFragmentManager().beginTransaction();
 
-                fragment.add(R.id.layoutMainActivity,fragment1);
+                fragment.add(R.id.layoutMainActivity2,fragment1);
                 fragment.commit();
                 btnFragment.setClickable(false);
             }
@@ -40,5 +42,6 @@ public class MainActivity extends AppCompatActivity implements Fragment1.OnFragm
         FragmentTransaction fragment=getFragmentManager().beginTransaction();
         fragment.remove(fragment1);
         fragment.commit();
+        btnFragment.setClickable(true);
     }
 }

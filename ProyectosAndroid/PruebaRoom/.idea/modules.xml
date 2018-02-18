@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PruebaRoom.iml" filepath="$PROJECT_DIR$/PruebaRoom.iml" />
+      <module fileurl="file://C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\PruebaRoom\PruebaRoom.iml" filepath="C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\PruebaRoom\PruebaRoom.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\PruebaRoom\app\app.iml" filepath="C:\Users\usuario\Desktop\GitHub\AndroidStudio\ProyectosAndroid\PruebaRoom\app\app.iml" />
     </modules>
   </component>
 </project>

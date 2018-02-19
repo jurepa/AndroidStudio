@@ -65,11 +65,14 @@ public class CreateGame extends AppCompatActivity {
     AcceptThread aceptarConexiones;
     Button btnCancelar;
     boolean heAcabado;
+    DatosJuego datos;
+    ByteArrayConverter byteArrayConverter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
         estadisticas=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
+        byteArrayConverter=new ByteArrayConverter();
         ConnectionBT conexion=new ConnectionBT();
         conexion.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         if(BluetoothAdapter.getDefaultAdapter().getScanMode()!=BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) //Si el móvil no es visible, hacemos una petición al usuario para ponerlo visible
@@ -83,15 +86,17 @@ public class CreateGame extends AppCompatActivity {
             @Override
             public void handleMessage(Message inputMessage)
             {
+                DatosJuego datos;
                 byte[] write = (byte[]) inputMessage.obj;
-                String res = new String(write, 0, inputMessage.arg1);
-                String mensaje = res.trim();
-                if(Character.isDigit(mensaje.charAt(0)))
+                datos=byteArrayConverter.deserializeBytes(write);
+                /*String res = new String(write, 0, inputMessage.arg1);
+                String mensaje = res.trim();*/
+                if(datos.getClicks()!=null)
                 {
-                    clicksAdversario=Integer.parseInt(mensaje);
+                    clicksAdversario=Integer.parseInt(datos.getClicks());
                     txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
                 }
-                else
+                if(datos.getHaTerminado()!=null)
                 {
                     rivalHaAcabado=true;
                 }
@@ -144,14 +149,14 @@ public class CreateGame extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 if(chrono.getText().toString().equalsIgnoreCase("00:05"))
                 {
+                    datos=new DatosJuego();
                     isChronoRunning=false;
                     heAcabado=true;
                     chrono.stop();
                     buttonClick.setClickable(false);
-                    //Instanciamos gestora conexion y escribimos los clicks para enviarlos al móvil de destino
-                    gestoraConexion.write(mensajeFinalizacion.getBytes());
-                    gestoraConexion.write(String.valueOf(clicks).getBytes());
-
+                    datos.setClicks(String.valueOf(clicks));
+                    datos.setHaTerminado(mensajeFinalizacion);
+                    gestoraConexion.write(byteArrayConverter.serializeObject(datos));
                 }
             }
         });
@@ -159,6 +164,7 @@ public class CreateGame extends AppCompatActivity {
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                datos=new DatosJuego();
                 heHechoClick=true;
                 if (!isChronoRunning) {
                     chrono.setBase(SystemClock.elapsedRealtime());
@@ -176,6 +182,7 @@ public class CreateGame extends AppCompatActivity {
                     }
                 });
                 clicks++;
+                datos.setClicks(String.valueOf(clicks));
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
                 gestoraConexion.write(String.valueOf(clicks).getBytes());
 

@@ -2,6 +2,7 @@ package com.iesnervion.pjarana.neverstopclicking;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -23,6 +24,11 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,28 +62,31 @@ public class GameActivity extends AppCompatActivity {
     final String mensajeFinalizacion="s";
     boolean heAcabado;
     boolean rivalHaAcabado;
-    byte[]bytes;
+    DatosJuego datos;
+    ByteArrayConverter byteArrayConverter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         disparo=MediaPlayer.create(this,R.raw.disparo);
         estadisticas=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
-
+        byteArrayConverter=new ByteArrayConverter();
         mHandler=new Handler()
         {
             @Override
             public void handleMessage(Message inputMessage)
             {
+                DatosJuego datos;
                 byte[] write = (byte[]) inputMessage.obj;
-                String res = new String(write, 0, inputMessage.arg1);
-                String mensaje = res.trim();
-                if(Character.isDigit(mensaje.charAt(0)))
+                datos=byteArrayConverter.deserializeBytes(write);
+                /*String res = new String(write, 0, inputMessage.arg1);
+                String mensaje = res.trim();*/
+                if(datos.getClicks()!=null)
                 {
-                    clicksAdversario=Integer.parseInt(mensaje);
+                    clicksAdversario=Integer.parseInt(datos.getClicks());
                     txtClicksRival.setText("Clicks Rival: "+String.valueOf(clicksAdversario));
                 }
-                else
+                if(datos.getHaTerminado()!=null)
                 {
                     rivalHaAcabado=true;
                 }
@@ -133,11 +142,14 @@ public class GameActivity extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 if(chrono.getText().toString().equalsIgnoreCase("00:05"))
                 {
+                    datos=new DatosJuego();
                     isChronoRunning=false;
                     heAcabado=true;
                     chrono.stop();
                     buttonClick.setClickable(false);
-                    gestoraConexion.write(mensajeFinalizacion.getBytes());
+                    datos.setClicks(String.valueOf(clicks));
+                    datos.setHaTerminado(mensajeFinalizacion);
+                    gestoraConexion.write(byteArrayConverter.serializeObject(datos));
                     gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }
             }
@@ -147,6 +159,7 @@ public class GameActivity extends AppCompatActivity {
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                datos=new DatosJuego();
                 heHechoClick=true;
                 if (!isChronoRunning) {
                     chrono.setBase(SystemClock.elapsedRealtime());
@@ -164,9 +177,9 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
                 clicks++;
+                datos.setClicks(String.valueOf(clicks));
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
-                gestoraConexion.write(String.valueOf(clicks).getBytes());
-
+                 gestoraConexion.write(byteArrayConverter.serializeObject(datos));
             }
         });
 
@@ -238,4 +251,6 @@ public class GameActivity extends AppCompatActivity {
             builder.create().show();
         }
     }
+
+
 }

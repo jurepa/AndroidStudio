@@ -1,10 +1,12 @@
 package com.iesnervion.pjarana.neverstopclicking;
 
+import java.io.Serializable;
+
 /**
  * Created by pjarana on 19/02/18.
  */
 
-public class DatosJuego {
+public class DatosJuego implements Serializable {
 
     private String clicks;
     private String haTerminado;

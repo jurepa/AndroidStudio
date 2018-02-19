@@ -44,8 +44,6 @@ public class ByteArrayConverter
         try {
             oos = new ObjectOutputStream(bytesOut);
             oos.writeObject(obj);
-            oos.flush();
-            bytes = bytesOut.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }finally
@@ -57,6 +55,7 @@ public class ByteArrayConverter
                 e.printStackTrace();
             }
         }
+        bytes = bytesOut.toByteArray();
         return bytes;
     }
 }

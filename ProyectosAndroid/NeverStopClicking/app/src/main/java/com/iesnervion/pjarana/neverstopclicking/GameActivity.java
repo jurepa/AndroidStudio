@@ -179,7 +179,7 @@ public class GameActivity extends AppCompatActivity {
                 clicks++;
                 datos.setClicks(String.valueOf(clicks));
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
-                 gestoraConexion.write(byteArrayConverter.serializeObject(datos));
+                gestoraConexion.write(byteArrayConverter.serializeObject(datos));
             }
         });
 

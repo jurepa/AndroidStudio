@@ -150,7 +150,6 @@ public class GameActivity extends AppCompatActivity {
                     datos.setClicks(String.valueOf(clicks));
                     datos.setHaTerminado(mensajeFinalizacion);
                     gestoraConexion.write(byteArrayConverter.serializeObject(datos));
-                    gestoraConexion.write(String.valueOf(clicks).getBytes());
                 }
             }
         });

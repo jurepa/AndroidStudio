@@ -87,6 +87,7 @@ public class JoinGame extends AppCompatActivity {
             public void onClick(View view) {
                 if(bluetoothAdapter.isDiscovering()) {
                     bluetoothAdapter.cancelDiscovery();
+                    btnBuscarDispositivos.setClickable(true);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
 

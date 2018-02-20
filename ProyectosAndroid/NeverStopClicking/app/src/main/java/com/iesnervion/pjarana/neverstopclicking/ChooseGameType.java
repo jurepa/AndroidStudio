@@ -49,6 +49,7 @@ public class ChooseGameType extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),CreateGame.class);
                 startActivity(i);
+                finish();
             }
         });
         btnUnirse.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,7 @@ public class ChooseGameType extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i= new Intent(getApplicationContext(),JoinGame.class);
                 startActivity(i);
+                finish();
             }
         });
     }

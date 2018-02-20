@@ -34,11 +34,12 @@ public class ConnectedThread  extends Thread{
 
     public void run()
     {
+        boolean haciendoAlgo=true;
         byte[] buffer = new byte[1024];  // capacidad de buffer para el stream
         int bytes; // bytes devueltos por .read()
 
         // Esperamos hasta que ocurra una excpcion
-        while (true)
+        while (haciendoAlgo)
         {
             try {
                 // Leemos del input
@@ -48,7 +49,7 @@ public class ConnectedThread  extends Thread{
             } catch (IOException e)
             {
                 e.printStackTrace();
-                break;
+                haciendoAlgo=false;
             }
         }
     }

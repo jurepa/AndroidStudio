@@ -184,7 +184,7 @@ public class CreateGame extends AppCompatActivity {
                 clicks++;
                 datos.setClicks(String.valueOf(clicks));
                 txtClicks.setText("Clicks: " + String.valueOf(clicks));
-                gestoraConexion.write(String.valueOf(clicks).getBytes());
+                gestoraConexion.write(byteArrayConverter.serializeObject(datos));
 
             }
         });

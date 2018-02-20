@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.iesnervion.pjarana.pruebaantesexamen.DAO.Usuario;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +72,15 @@ public class AddUserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_add_user, container, false);
+        txtNuevoUsuario=(EditText)v.findViewById(R.id.nombreUsuario);
+        btnGuardarUsuario=(Button)v.findViewById(R.id.btnGuardar);
+        btnGuardarUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Usuario u=new Usuario(0,txtNuevoUsuario.getText().toString());
+                repository.insertUsuarios(u);
+            }
+        });
 
         return v;
     }

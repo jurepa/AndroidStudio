@@ -2,6 +2,7 @@ package com.iesnervion.pjarana.pruebaantesexamen;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
 
 import com.iesnervion.pjarana.pruebaantesexamen.DAO.Database;
 import com.iesnervion.pjarana.pruebaantesexamen.DAO.MyDAO;
@@ -30,5 +31,18 @@ public class UsuarioRepository {
 
     public void setUsuariosLiveData(LiveData<List<Usuario>> usuariosLiveData) {
         this.usuariosLiveData = usuariosLiveData;
+    }
+    public void insertUsuarios(Usuario...usuarios)
+    {
+        new insertUsuarios().execute(usuarios);
+    }
+    private class insertUsuarios extends AsyncTask<Usuario,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Usuario... usuarios) {
+            myDAO.insertUsuarios(usuarios);
+            return null;
+        }
     }
 }

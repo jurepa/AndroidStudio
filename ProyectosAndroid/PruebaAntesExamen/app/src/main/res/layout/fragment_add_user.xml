@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iesnervion.pjarana.pruebaantesexamen.AddUserFragment">
+    tools:context="com.iesnervion.pjarana.pruebaantesexamen.Fragments.AddUserFragment">
 
     <EditText
         android:id="@+id/nombreUsuario"
@@ -24,6 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guardar"
-        android:layout_below="@id/nombreUsuario"
+        android:layout_above="@id/nombreUsuario"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>

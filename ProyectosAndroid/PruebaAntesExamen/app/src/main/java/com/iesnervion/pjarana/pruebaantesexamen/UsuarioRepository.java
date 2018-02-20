@@ -36,12 +36,23 @@ public class UsuarioRepository {
     {
         new insertUsuarios().execute(usuarios);
     }
+    public void updateUsuarios(Usuario...usuarios){new updateUsuarios().execute(usuarios);}
     private class insertUsuarios extends AsyncTask<Usuario,Void,Void>
     {
 
         @Override
         protected Void doInBackground(Usuario... usuarios) {
             myDAO.insertUsuarios(usuarios);
+            return null;
+        }
+    }
+
+    private class updateUsuarios extends AsyncTask<Usuario,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Usuario... usuarios) {
+            myDAO.updateUsuarios(usuarios);
             return null;
         }
     }

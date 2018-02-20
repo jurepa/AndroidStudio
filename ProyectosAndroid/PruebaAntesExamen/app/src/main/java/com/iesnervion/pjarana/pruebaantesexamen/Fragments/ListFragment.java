@@ -1,31 +1,27 @@
-package com.iesnervion.pjarana.pruebaantesexamen;
+package com.iesnervion.pjarana.pruebaantesexamen.Fragments;
 
 
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.iesnervion.pjarana.pruebaantesexamen.CustomListView.MyAdapter;
 import com.iesnervion.pjarana.pruebaantesexamen.DAO.Usuario;
+import com.iesnervion.pjarana.pruebaantesexamen.MainViewModel;
+import com.iesnervion.pjarana.pruebaantesexamen.R;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 
 /**
@@ -47,8 +43,7 @@ public class ListFragment extends Fragment {
     private String mParam2;
     private MainViewModel viewModel;
     private ListView listaUsuarios;
-    private ArrayList<String> arrayNombreUsuarios;
-    private ArrayAdapter<String> adapter;
+    private MyAdapter<Usuario>myAdapter;
     //private OnFragmentInteractionListener mListener;
 
     public ListFragment() {
@@ -93,13 +88,16 @@ public class ListFragment extends Fragment {
         viewModel.getUsuariosLiveData().observe((LifecycleOwner) getActivity(), new Observer<List<Usuario>>() {
             @Override
             public void onChanged(@Nullable List<Usuario> usuarios) {
-                arrayNombreUsuarios=new ArrayList<String>();
-                for(int i=0;i<usuarios.size();i++)
-                {
-                    arrayNombreUsuarios.add(usuarios.get(i).getNombre());
-                }
-                adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,arrayNombreUsuarios);
-                listaUsuarios.setAdapter(adapter);
+
+                myAdapter=new MyAdapter<Usuario>(getContext(),R.layout.row_style,usuarios);
+                listaUsuarios.setAdapter(myAdapter);
+            }
+        });
+        listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                viewModel.getUsuarioSeleccionado().setValue((Usuario) myAdapter.getItem(i));
             }
         });
         return v;

@@ -1,7 +1,5 @@
-package com.iesnervion.pjarana.pruebaantesexamen;
+package com.iesnervion.pjarana.pruebaantesexamen.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.iesnervion.pjarana.pruebaantesexamen.DAO.Usuario;
+import com.iesnervion.pjarana.pruebaantesexamen.R;
+import com.iesnervion.pjarana.pruebaantesexamen.UsuarioRepository;
 
 
 /**

@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 
 /**
  * Created by pjarana on 19/02/18.
+ * Descripción: Esta clase se usará para castear Objetos a byte[] y viceversa
  */
 
 public class ByteArrayConverter

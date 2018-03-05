@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by pjarana on 19/02/18.
+ * Descrip
  */
 
 public class DatosJuego implements Serializable {

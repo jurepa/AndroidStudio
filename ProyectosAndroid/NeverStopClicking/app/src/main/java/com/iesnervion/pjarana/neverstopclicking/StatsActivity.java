@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+
 public class StatsActivity extends AppCompatActivity {
 
     TextView resultado;
@@ -14,10 +18,13 @@ public class StatsActivity extends AppCompatActivity {
     TextView clicksPorSegundo;
     TextView fecha;
     SharedPreferences fichero;
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+        MobileAds.initialize(this,"ca-app-pub-4311390522883133~2229208522");
+
         fichero=getSharedPreferences("Estadisticas", Context.MODE_PRIVATE);
         resultado=(TextView)findViewById(R.id.resultado);
         clicks=(TextView)findViewById(R.id.clicks);
